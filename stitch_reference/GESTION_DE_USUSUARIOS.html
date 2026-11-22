@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary": "#ffffff", "tertiary-container": "#341100", "surface-bright": "#f8f9ff", "tertiary-fixed": "#ffdbca", "on-background": "#0b1c30", "background": "#f8f9ff", "inverse-surface": "#213145", "surface-container-high": "#dce9ff", "secondary-fixed": "#dbe1ff", "tertiary": "#000000", "on-secondary": "#ffffff", "on-primary": "#ffffff", "error-container": "#ffdad6", "surface-container-low": "#eff4ff", "surface-tint": "#565e74", "surface-variant": "#d3e4fe", "on-secondary-container": "#fefcff", "on-tertiary-container": "#d95f00", "on-surface": "#0b1c30", "primary": "#000000", "secondary-fixed-dim": "#b4c5ff", "inverse-on-surface": "#eaf1ff", "on-tertiary-fixed": "#341100", "primary-fixed": "#dae2fd", "outline-variant": "#c6c6cd", "outline": "#76777d", "on-primary-fixed": "#131b2e", "surface": "#f8f9ff", "on-secondary-fixed-variant": "#003ea8", "surface-dim": "#cbdbf5", "on-surface-variant": "#45464d", "secondary": "#0051d5", "on-secondary-fixed": "#00174b", "primary-fixed-dim": "#bec6e0", "primary-container": "#131b2e", "error": "#ba1a1a", "surface-container": "#e5eeff", "on-tertiary-fixed-variant": "#783200", "on-error": "#ffffff", "surface-container-lowest": "#ffffff", "on-primary-fixed-variant": "#3f465c", "on-error-container": "#93000a", "tertiary-fixed-dim": "#ffb690", "on-primary-container": "#7c839b", "inverse-primary": "#bec6e0", "surface-container-highest": "#d3e4fe", "secondary-container": "#316bf3" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-xl": "2rem", "margin": "2rem", "gutter": "1.5rem", "space-lg": "1.5rem", "margin-mobile": "1rem", "space-sm": "0.5rem", "gutter-mobile": "1rem", "space-md": "1rem" }, "fontFamily": { "headline-lg": ["Hanken Grotesk"], "display": ["Hanken Grotesk"], "label-code": ["JetBrains Mono"], "body-lg": ["Inter"], "body-md": ["Inter"], "body-sm": ["Inter"], "headline-sm": ["Hanken Grotesk"], "headline-md": ["Hanken Grotesk"], "label-badge": ["Inter"], "headline-lg-mobile": ["Hanken Grotesk"] }, "fontSize": { "headline-lg": ["2rem", { "lineHeight": "1.25", "letterSpacing": "-0.02em", "fontWeight": "600" }], "display": ["3rem", { "lineHeight": "1.15", "letterSpacing": "-0.03em", "fontWeight": "700" }], "label-code": ["0.75rem", { "lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "500" }], "body-lg": ["1rem", { "lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400" }], "body-md": ["0.875rem", { "lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400" }], "body-sm": ["0.75rem", { "lineHeight": "1.4", "letterSpacing": "0.005em", "fontWeight": "400" }], "headline-sm": ["1.125rem", { "lineHeight": "1.4", "letterSpacing": "-0.005em", "fontWeight": "600" }], "headline-md": ["1.25rem", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-badge": ["0.6875rem", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-lg-mobile": ["1.5rem", { "lineHeight": "1.3", "letterSpacing": "-0.015em", "fontWeight": "600" }] } } } }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-16 lg:w-60 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col transition-all duration-300"><div class="h-16 flex items-center px-4 lg:px-6 gap-3"><img alt="AgentHub Logo" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrBQ-AbNncsTQfUYT3cxlcxOR8HyxAHzHh2l_yizNcKw4lZBbv5nl8VdneyyEHd7KEJ6GdkBk-y7kn_Df1szvw_6GFbIYTqW3MMx6CATNgsxGF_cxio4jSqj16iyRC1j3XWaDjAhA27CK69fkOx54Ic4guklCohkTBceIYQnqLUhDW0PZYYMNBVcrnLsSauvleTEb7dJcck86q4Ffxx7YpnQxctgvfwJ6ZhBfR92uie3HA"/><span class="hidden lg:block font-headline-md text-headline-md text-on-surface truncate">AgentHub</span></div><nav class="flex-1 px-2 lg:px-3 py-4 space-y-1 overflow-y-auto" data-active-classes="bg-surface-container text-on-surface font-headline-sm font-semibold rounded-lg"><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">dashboard</span><span class="hidden lg:inline text-body-md truncate">Dashboard</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="gestion-de-usuarios" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">group</span><span class="hidden lg:inline text-body-md truncate">Gestión de usuarios</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="gestion-de-agentes" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">smart_toy</span><span class="hidden lg:inline text-body-md truncate">Gestión de agentes</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="skills" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">psychology</span><span class="hidden lg:inline text-body-md truncate">Skills</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="contrataciones-de-agentes" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">assignment_turned_in</span><span class="hidden lg:inline text-body-md truncate">Contrataciones de agentes</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="log-de-errores" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">error_med</span><span class="hidden lg:inline text-body-md truncate">Log de errores</span></a></nav><div class="p-3 lg:p-4"><div class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-low"><div class="w-2 h-2 rounded-full bg-secondary shrink-0"></div><span class="hidden lg:inline font-label-code text-label-code text-on-surface-variant truncate">v2.4-enterprise</span></div></div></aside><div class="pl-16 lg:pl-60 min-h-screen flex flex-col"><header class="fixed top-0 left-16 lg:left-60 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-4"><img alt="AgentHub Logo" class="h-8 w-auto object-contain lg:hidden" src="https://lh3.googleusercontent.com/aida/ALJJyrBQ-AbNncsTQfUYT3cxlcxOR8HyxAHzHh2l_yizNcKw4lZBbv5nl8VdneyyEHd7KEJ6GdkBk-y7kn_Df1szvw_6GFbIYTqW3MMx6CATNgsxGF_cxio4jSqj16iyRC1j3XWaDjAhA27CK69fkOx54Ic4guklCohkTBceIYQnqLUhDW0PZYYMNBVcrnLsSauvleTEb7dJcck86q4Ffxx7YpnQxctgvfwJ6ZhBfR92uie3HA"/><span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Consola de Administración</span></div><div class="flex items-center gap-3"><button aria-label="Toggle Light/Dark Mode" class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">light_mode</span></button><div class="flex items-center gap-2.5 py-1 px-2.5 rounded-full bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden sm:flex flex-col text-left pr-1"><span class="font-body-sm text-body-sm font-semibold text-on-surface leading-tight truncate">Administrador</span><span class="font-label-badge text-label-badge text-on-surface-variant uppercase tracking-wider">Superadmin</span></div></div></div></header><main class="w-full flex-1 pt-16 p-space-lg bg-surface"><div class="flex flex-col w-full space-y-space-lg">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="space-y-1">
+<div class="flex items-center gap-2">
+<span class="font-label-badge text-label-badge uppercase tracking-wider px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed">Control de Acceso</span>
+<span class="font-label-code text-label-code text-on-surface-variant">IAM • Tenants</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Gestión de usuarios</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Supervisa credenciales corporativas, membresías de planes enterprise y estado operativo de cuentas.</p>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-[18px] text-on-surface-variant pointer-events-none">search</span>
+<input class="h-9 pl-9 pr-4 rounded-lg bg-surface-container-lowest text-body-sm text-on-surface placeholder:text-on-surface-variant shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary w-56 lg:w-64 transition-all" placeholder="Buscar por nombre o correo..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-9 px-3 rounded-lg bg-surface-container-lowest text-on-surface text-body-sm font-semibold flex items-center gap-1.5 shadow-sm hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">filter_list</span>
+<span>Filtros</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+</button>
+<button class="h-9 px-4 rounded-lg bg-primary text-on-primary text-body-sm font-semibold flex items-center gap-1.5 shadow-sm hover:opacity-90 transition-opacity" type="button">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+<span>Nuevo usuario</span>
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="space-y-1">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant">Total Cuentas</span>
+<p class="font-headline-lg text-headline-lg font-bold text-on-surface">1,428</p>
+<div class="flex items-center gap-1 text-label-code text-label-code text-secondary font-semibold">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>+12.4% este mes</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-container"></div>
+<div class="space-y-1">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant">Activas Hoy</span>
+<p class="font-headline-lg text-headline-lg font-bold text-on-surface">1,380</p>
+<div class="flex items-center gap-1 text-label-code text-label-code text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>96.6% ratio retención</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container"></div>
+<div class="space-y-1">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant">Pendientes IAM</span>
+<p class="font-headline-lg text-headline-lg font-bold text-on-surface">32</p>
+<div class="flex items-center gap-1 text-label-code text-label-code text-on-tertiary-container">
+<span class="material-symbols-outlined text-[14px]">hourglass_empty</span>
+<span>Esperando token SSO</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-[20px]">pending_actions</span>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-error"></div>
+<div class="space-y-1">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant">Bloqueadas</span>
+<p class="font-headline-lg text-headline-lg font-bold text-on-surface">16</p>
+<div class="flex items-center gap-1 text-label-code text-label-code text-error">
+<span class="material-symbols-outlined text-[14px]">security</span>
+<span>Políticas de sesión</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-error-container flex items-center justify-center text-on-error-container">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between flex-wrap gap-2 pt-1">
+<div class="flex items-center gap-1.5 p-1 rounded-xl bg-surface-container-low">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface text-body-sm font-semibold shadow-sm" type="button">Todos (5)</button>
+<button class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface text-body-sm font-medium transition-colors" type="button">Enterprise (2)</button>
+<button class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface text-body-sm font-medium transition-colors" type="button">Professional (2)</button>
+<button class="px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface text-body-sm font-medium transition-colors" type="button">Starter (1)</button>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-body-sm text-on-surface-variant">Estado:</span>
+<select class="h-8 px-2.5 rounded-lg bg-surface-container-lowest text-body-sm font-medium text-on-surface shadow-sm focus:outline-none focus:ring-1 focus:ring-secondary">
+<option>Cualquier estado</option>
+<option>Activo</option>
+<option>Pendiente</option>
+<option>Inactivo</option>
+</select>
+</div>
+</div>
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse min-w-[760px]">
+<thead>
+<tr class="h-10 bg-surface-container-high/60 text-on-surface-variant text-label-code uppercase tracking-wider font-semibold">
+<th class="pl-5 pr-3 py-2 text-left w-12">
+<input class="w-4 h-4 rounded text-secondary accent-secondary cursor-pointer" type="checkbox"/>
+</th>
+<th class="px-4 py-2">Usuario</th>
+<th class="px-4 py-2">Correo Electrónico</th>
+<th class="px-4 py-2">Plan</th>
+<th class="px-4 py-2">Estado</th>
+<th class="pr-6 pl-4 py-2 text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="text-body-md divide-y divide-surface-container-low">
+<tr class="h-14 hover:bg-surface-container-low/70 transition-colors group">
+<td class="pl-5 pr-3 py-3">
+<input class="w-4 h-4 rounded accent-secondary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-headline-sm text-label-code font-bold">
+                  AM
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-on-surface font-semibold truncate">Ana Martínez</span>
+<span class="font-label-code text-label-code text-on-surface-variant">TechCorp Fleet Lead</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 font-label-code text-label-code text-on-surface">ana@techcorp.com</td>
+<td class="px-4 py-3">
+<span class="px-2.5 py-1 rounded-md bg-surface-container-high text-on-surface font-label-code text-label-code font-semibold tracking-wide">Enterprise</span>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 h-[22px] px-2.5 rounded-full bg-surface-container-low text-on-surface border border-transparent font-label-badge text-label-badge font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="material-symbols-outlined text-[13px] text-secondary">check_circle</span>
+                Activo
+              </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors ml-auto" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="h-14 bg-surface-container-low/40 hover:bg-surface-container-low transition-colors relative">
+<td class="pl-5 pr-3 py-3 relative">
+<div class="absolute left-0 top-0 bottom-0 w-0.5 bg-secondary"></div>
+<input checked="" class="w-4 h-4 rounded accent-secondary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center font-headline-sm text-label-code font-bold">
+                  CL
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-on-surface font-semibold truncate">Carlos López</span>
+<span class="font-label-code text-label-code text-on-surface-variant">DataFlow Operations</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 font-label-code text-label-code text-on-surface">carlos@dataflow.io</td>
+<td class="px-4 py-3">
+<span class="px-2.5 py-1 rounded-md bg-secondary-fixed text-on-secondary-fixed font-label-code text-label-code font-semibold tracking-wide">Professional</span>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 h-[22px] px-2.5 rounded-full bg-surface-container-low text-on-surface font-label-badge text-label-badge font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="material-symbols-outlined text-[13px] text-secondary">check_circle</span>
+                Activo
+              </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right relative">
+<div class="flex items-center justify-end relative">
+<button class="w-8 h-8 rounded-lg bg-surface-container text-on-surface flex items-center justify-center shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+<div class="absolute right-0 top-9 w-44 rounded-xl bg-surface-container-lowest shadow-lg py-1.5 z-30 text-left border-none">
+<div class="px-3 py-1 font-label-code text-label-code text-on-surface-variant border-b border-surface-container-low pb-1 mb-1">
+                    ID: #USR-9804
+                  </div>
+<button class="w-full px-3 py-1.5 flex items-center gap-2 text-body-sm text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">visibility</span>
+<span>Ver detalle</span>
+</button>
+<button class="w-full px-3 py-1.5 flex items-center gap-2 text-body-sm text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">key</span>
+<span>Rotar token</span>
+</button>
+<div class="my-1 border-t border-surface-container-low"></div>
+<button class="w-full px-3 py-1.5 flex items-center gap-2 text-body-sm text-error hover:bg-error-container transition-colors font-medium" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+<span>Eliminar</span>
+</button>
+</div>
+</div>
+</td>
+</tr>
+<tr class="h-14 hover:bg-surface-container-low/70 transition-colors group">
+<td class="pl-5 pr-3 py-3">
+<input class="w-4 h-4 rounded accent-secondary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-headline-sm text-label-code font-bold">
+                  EG
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-on-surface font-semibold truncate">Elena García</span>
+<span class="font-label-code text-label-code text-on-surface-variant">InnovaTech Ops</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 font-label-code text-label-code text-on-surface">elena@innovatech.es</td>
+<td class="px-4 py-3">
+<span class="px-2.5 py-1 rounded-md bg-surface-container text-on-surface-variant font-label-code text-label-code font-semibold tracking-wide">Starter</span>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 h-[22px] px-2.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-badge text-label-badge font-semibold">
+<span class="material-symbols-outlined text-[13px] text-on-tertiary-container">schedule</span>
+                Pendiente
+              </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors ml-auto" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="h-14 hover:bg-surface-container-low/70 transition-colors group">
+<td class="pl-5 pr-3 py-3">
+<input class="w-4 h-4 rounded accent-secondary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed-dim text-on-secondary-fixed flex items-center justify-center font-headline-sm text-label-code font-bold">
+                  DK
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-on-surface font-semibold truncate">David Kim</span>
+<span class="font-label-code text-label-code text-on-surface-variant">CloudNine Platform Lead</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 font-label-code text-label-code text-on-surface">david@cloudnine.dev</td>
+<td class="px-4 py-3">
+<span class="px-2.5 py-1 rounded-md bg-surface-container-high text-on-surface font-label-code text-label-code font-semibold tracking-wide">Enterprise</span>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 h-[22px] px-2.5 rounded-full bg-surface-container-low text-on-surface font-label-badge text-label-badge font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="material-symbols-outlined text-[13px] text-secondary">check_circle</span>
+                Activo
+              </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors ml-auto" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="h-14 hover:bg-surface-container-low/70 transition-colors group">
+<td class="pl-5 pr-3 py-3">
+<input class="w-4 h-4 rounded accent-secondary cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center font-headline-sm text-label-code font-bold">
+                  ST
+                </div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-on-surface font-semibold truncate">Sofía Torres</span>
+<span class="font-label-code text-label-code text-on-surface-variant">NexusAI Architect</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-3 font-label-code text-label-code text-on-surface">sofia@nexusai.co</td>
+<td class="px-4 py-3">
+<span class="px-2.5 py-1 rounded-md bg-secondary-fixed text-on-secondary-fixed font-label-code text-label-code font-semibold tracking-wide">Professional</span>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center gap-1.5 h-[22px] px-2.5 rounded-full bg-error-container text-on-error-container font-label-badge text-label-badge font-semibold">
+<span class="material-symbols-outlined text-[13px] text-error">cancel</span>
+                Inactivo
+              </span>
+</td>
+<td class="pr-6 pl-4 py-3 text-right">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors ml-auto" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-5 py-3.5 bg-surface-container-lowest flex flex-col sm:flex-row items-center justify-between gap-3 text-body-sm text-on-surface-variant border-t border-surface-container-low">
+<div class="flex items-center gap-2">
+<span>Mostrando <span class="font-semibold text-on-surface">1</span> a <span class="font-semibold text-on-surface">5</span> de <span class="font-semibold text-on-surface">1,428</span> registros</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-container text-on-surface-variant disabled:opacity-40" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container text-on-surface font-semibold text-body-sm flex items-center justify-center shadow-sm" type="button">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface-variant font-medium text-body-sm flex items-center justify-center transition-colors" type="button">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface-variant font-medium text-body-sm flex items-center justify-center transition-colors" type="button">3</button>
+<span class="px-1 text-on-surface-variant">...</span>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface-variant font-medium text-body-sm flex items-center justify-center transition-colors" type="button">286</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-container text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<div class="w-full grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2">
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm lg:col-span-2 space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Actividad de Usuarios y Sesiones</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tráfico de invocación de endpoints por tenants corporativos en las últimas 24 horas.</p>
+</div>
+<span class="font-label-code text-label-code text-secondary font-semibold bg-secondary-fixed/50 px-2 py-0.5 rounded">99.98% uptime</span>
+</div>
+<div class="h-32 w-full flex items-end gap-2 pt-4 px-1">
+<div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+<div class="w-full bg-surface-container-high rounded-t-md hover:bg-secondary transition-colors" style="height: 45%;"></div>
+<span class="font-label-code text-[10px] text-on-surface-variant">00:00</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+<div class="w-full bg-surface-container-high rounded-t-md hover:bg-secondary transition-colors" style="height: 28%;"></div>
+<span class="font-label-code text-[10px] text-on-surface-variant">04:00</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+<div class="w-full bg-secondary-container rounded-t-md hover:bg-secondary transition-colors" style="height: 72%;"></div>
+<span class="font-label-code text-[10px] text-on-surface-variant">08:00</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+<div class="w-full bg-secondary rounded-t-md" style="height: 94%;"></div>
+<span class="font-label-code text-[10px] text-on-surface font-bold">12:00</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+<div class="w-full bg-secondary-container rounded-t-md hover:bg-secondary transition-colors" style="height: 85%;"></div>
+<span class="font-label-code text-[10px] text-on-surface-variant">16:00</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
+<div class="w-full bg-surface-container-high rounded-t-md hover:bg-secondary transition-colors" style="height: 60%;"></div>
+<span class="font-label-code text-[10px] text-on-surface-variant">20:00</span>
+</div>
+</div>
+</div>
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between space-y-4">
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Distribución por Nivel</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cuotas asignadas por acuerdos de nivel de servicio (SLA).</p>
+</div>
+<div class="space-y-3">
+<div class="space-y-1">
+<div class="flex justify-between font-label-code text-label-code">
+<span class="text-on-surface font-semibold">Enterprise SLA</span>
+<span class="text-on-surface-variant">64%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 64%;"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-code text-label-code">
+<span class="text-on-surface font-semibold">Professional</span>
+<span class="text-on-surface-variant">26%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+<div class="h-full bg-secondary-container rounded-full" style="width: 26%;"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between font-label-code text-label-code">
+<span class="text-on-surface font-semibold">Starter Tier</span>
+<span class="text-on-surface-variant">10%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+<div class="h-full bg-outline-variant rounded-full" style="width: 10%;"></div>
+</div>
+</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Capacidad de cluster:</span>
+<span class="font-label-code text-label-code font-bold text-on-surface">78.4 / 100 TFLOPS</span>
+</div>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-surface-container-lowest flex items-center justify-center text-secondary shadow-sm">
+<span class="material-symbols-outlined text-[22px]">policy</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm font-semibold text-on-surface">Sincronización de Directorio Activo (SCIM 2.0)</p>
+<p class="font-label-code text-label-code text-on-surface-variant">Última conciliación automática realizada hace 4 minutos sin incidencias.</p>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface text-body-sm font-medium hover:bg-surface-container transition-colors shadow-sm" type="button">Configuración SSO</button>
+<button class="px-3 py-1.5 rounded-lg bg-secondary text-on-secondary text-body-sm font-medium hover:opacity-95 transition-opacity shadow-sm" type="button">Forzar Sincronización</button>
+</div>
+</div>
+</div></main></div></body></html>

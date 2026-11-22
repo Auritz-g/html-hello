@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary": "#ffffff", "tertiary-container": "#341100", "surface-bright": "#f8f9ff", "tertiary-fixed": "#ffdbca", "on-background": "#0b1c30", "background": "#f8f9ff", "inverse-surface": "#213145", "surface-container-high": "#dce9ff", "secondary-fixed": "#dbe1ff", "tertiary": "#000000", "on-secondary": "#ffffff", "on-primary": "#ffffff", "error-container": "#ffdad6", "surface-container-low": "#eff4ff", "surface-tint": "#565e74", "surface-variant": "#d3e4fe", "on-secondary-container": "#fefcff", "on-tertiary-container": "#d95f00", "on-surface": "#0b1c30", "primary": "#000000", "secondary-fixed-dim": "#b4c5ff", "inverse-on-surface": "#eaf1ff", "on-tertiary-fixed": "#341100", "primary-fixed": "#dae2fd", "outline-variant": "#c6c6cd", "outline": "#76777d", "on-primary-fixed": "#131b2e", "surface": "#f8f9ff", "on-secondary-fixed-variant": "#003ea8", "surface-dim": "#cbdbf5", "on-surface-variant": "#45464d", "secondary": "#0051d5", "on-secondary-fixed": "#00174b", "primary-fixed-dim": "#bec6e0", "primary-container": "#131b2e", "error": "#ba1a1a", "surface-container": "#e5eeff", "on-tertiary-fixed-variant": "#783200", "on-error": "#ffffff", "surface-container-lowest": "#ffffff", "on-primary-fixed-variant": "#3f465c", "on-error-container": "#93000a", "tertiary-fixed-dim": "#ffb690", "on-primary-container": "#7c839b", "inverse-primary": "#bec6e0", "surface-container-highest": "#d3e4fe", "secondary-container": "#316bf3" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-xl": "2rem", "margin": "2rem", "gutter": "1.5rem", "space-lg": "1.5rem", "margin-mobile": "1rem", "space-sm": "0.5rem", "gutter-mobile": "1rem", "space-md": "1rem" }, "fontFamily": { "headline-lg": ["Hanken Grotesk"], "display": ["Hanken Grotesk"], "label-code": ["JetBrains Mono"], "body-lg": ["Inter"], "body-md": ["Inter"], "body-sm": ["Inter"], "headline-sm": ["Hanken Grotesk"], "headline-md": ["Hanken Grotesk"], "label-badge": ["Inter"], "headline-lg-mobile": ["Hanken Grotesk"] }, "fontSize": { "headline-lg": ["2rem", { "lineHeight": "1.25", "letterSpacing": "-0.02em", "fontWeight": "600" }], "display": ["3rem", { "lineHeight": "1.15", "letterSpacing": "-0.03em", "fontWeight": "700" }], "label-code": ["0.75rem", { "lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "500" }], "body-lg": ["1rem", { "lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400" }], "body-md": ["0.875rem", { "lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400" }], "body-sm": ["0.75rem", { "lineHeight": "1.4", "letterSpacing": "0.005em", "fontWeight": "400" }], "headline-sm": ["1.125rem", { "lineHeight": "1.4", "letterSpacing": "-0.005em", "fontWeight": "600" }], "headline-md": ["1.25rem", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-badge": ["0.6875rem", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-lg-mobile": ["1.5rem", { "lineHeight": "1.3", "letterSpacing": "-0.015em", "fontWeight": "600" }] } } } }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-16 lg:w-60 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col transition-all duration-300"><div class="h-16 flex items-center px-4 lg:px-6 gap-3"><img alt="AgentHub Logo" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida/ALJJyrBQ-AbNncsTQfUYT3cxlcxOR8HyxAHzHh2l_yizNcKw4lZBbv5nl8VdneyyEHd7KEJ6GdkBk-y7kn_Df1szvw_6GFbIYTqW3MMx6CATNgsxGF_cxio4jSqj16iyRC1j3XWaDjAhA27CK69fkOx54Ic4guklCohkTBceIYQnqLUhDW0PZYYMNBVcrnLsSauvleTEb7dJcck86q4Ffxx7YpnQxctgvfwJ6ZhBfR92uie3HA"/><span class="hidden lg:block font-headline-md text-headline-md text-on-surface truncate">AgentHub</span></div><nav class="flex-1 px-2 lg:px-3 py-4 space-y-1 overflow-y-auto" data-active-classes="bg-surface-container text-on-surface font-headline-sm font-semibold rounded-lg"><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">dashboard</span><span class="hidden lg:inline text-body-md truncate">Dashboard</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="gestion-de-usuarios" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">group</span><span class="hidden lg:inline text-body-md truncate">Gestión de usuarios</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="gestion-de-agentes" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">smart_toy</span><span class="hidden lg:inline text-body-md truncate">Gestión de agentes</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="skills" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">psychology</span><span class="hidden lg:inline text-body-md truncate">Skills</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="contrataciones-de-agentes" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">assignment_turned_in</span><span class="hidden lg:inline text-body-md truncate">Contrataciones de agentes</span></a><a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group" data-path="log-de-errores" href="#"><span class="material-symbols-outlined text-[20px] shrink-0">error_med</span><span class="hidden lg:inline text-body-md truncate">Log de errores</span></a></nav><div class="p-3 lg:p-4"><div class="flex items-center gap-2 p-2 rounded-lg bg-surface-container-low"><div class="w-2 h-2 rounded-full bg-secondary shrink-0"></div><span class="hidden lg:inline font-label-code text-label-code text-on-surface-variant truncate">v2.4-enterprise</span></div></div></aside><div class="pl-16 lg:pl-60 min-h-screen flex flex-col"><header class="fixed top-0 left-16 lg:left-60 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-4"><img alt="AgentHub Logo" class="h-8 w-auto object-contain lg:hidden" src="https://lh3.googleusercontent.com/aida/ALJJyrBQ-AbNncsTQfUYT3cxlcxOR8HyxAHzHh2l_yizNcKw4lZBbv5nl8VdneyyEHd7KEJ6GdkBk-y7kn_Df1szvw_6GFbIYTqW3MMx6CATNgsxGF_cxio4jSqj16iyRC1j3XWaDjAhA27CK69fkOx54Ic4guklCohkTBceIYQnqLUhDW0PZYYMNBVcrnLsSauvleTEb7dJcck86q4Ffxx7YpnQxctgvfwJ6ZhBfR92uie3HA"/><span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Consola de Administración</span></div><div class="flex items-center gap-3"><button aria-label="Toggle Light/Dark Mode" class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">light_mode</span></button><div class="flex items-center gap-2.5 py-1 px-2.5 rounded-full bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden sm:flex flex-col text-left pr-1"><span class="font-body-sm text-body-sm font-semibold text-on-surface leading-tight truncate">Administrador</span><span class="font-label-badge text-label-badge text-on-surface-variant uppercase tracking-wider">Superadmin</span></div></div></div></header><main class="w-full flex-1 pt-16 p-space-lg bg-surface"><div class="flex flex-col w-full gap-space-lg">
+<!-- Header de Sección -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-2">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-secondary font-semibold">ORQUESTACIÓN DE FLOTA</span>
+<span class="text-on-surface-variant">•</span>
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant font-medium">AGENTES AUTÓNOMOS</span>
+</div>
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div>
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Gestión de agentes</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 max-w-3xl">
+          Administra el ciclo de vida, configuración de system prompts y asignación de skills para la flota de agentes desplegados.
+        </p>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="flex items-center gap-2 bg-primary hover:bg-slate-800 text-on-primary font-body-md text-body-md font-medium px-4 py-2 rounded-lg shadow-sm transition-all duration-150" id="btn-open-create">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Desplegar nuevo agente</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Barra de Herramientas y Filtros -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm bg-surface-container-lowest p-space-sm rounded-xl shadow-sm">
+<div class="relative w-full sm:w-96 flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full bg-surface-container-low text-on-surface font-body-md text-body-md pl-10 pr-4 py-2 rounded-lg outline-none focus:bg-surface-container transition-colors placeholder:text-on-surface-variant" placeholder="Buscar por nombre de agente o propietario..." type="text"/>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+<div class="inline-flex rounded-lg bg-surface-container-low p-1 gap-1">
+<button class="px-3 py-1.5 rounded-md font-body-sm text-body-sm font-semibold bg-surface-container-lowest text-on-surface shadow-sm">Todos (4)</button>
+<button class="px-3 py-1.5 rounded-md font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors">Activos (2)</button>
+<button class="px-3 py-1.5 rounded-md font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors">Incidencias (1)</button>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-2 bg-surface-container-low hover:bg-surface-container text-on-surface font-body-sm text-body-sm font-medium rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>Filtros</span>
+</button>
+</div>
+</div>
+<!-- Fila de KPIs Rápidos de Agentes -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Total Agentes -->
+<div class="relative bg-surface-container-lowest p-space-md rounded-xl shadow-sm overflow-hidden flex flex-col justify-between">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-badge text-label-badge uppercase tracking-wider font-semibold">Agentes Totales</span>
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">4</span>
+<span class="font-body-sm text-body-sm text-secondary font-medium">100% capacidad</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 truncate">Flota activa y en standby</p>
+</div>
+<!-- En Producción -->
+<div class="relative bg-surface-container-lowest p-space-md rounded-xl shadow-sm overflow-hidden flex flex-col justify-between">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-green-600"></div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-badge text-label-badge uppercase tracking-wider font-semibold">En Producción</span>
+<span class="material-symbols-outlined text-[20px] text-green-600">check_circle</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">2</span>
+<span class="font-body-sm text-body-sm text-green-700 font-semibold bg-green-50 px-2 py-0.5 rounded-full">50% flota</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 truncate">SupportBot, TransLingua</p>
+</div>
+<!-- Con Incidencias -->
+<div class="relative bg-surface-container-lowest p-space-md rounded-xl shadow-sm overflow-hidden flex flex-col justify-between">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-error"></div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-badge text-label-badge uppercase tracking-wider font-semibold">Con Incidencias</span>
+<span class="material-symbols-outlined text-[20px] text-error">warning</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg font-bold text-error">1</span>
+<span class="font-body-sm text-body-sm text-error font-semibold bg-error-container/40 px-2 py-0.5 rounded-full">Requiere L2</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 truncate">DataMiner X - Fallando</p>
+</div>
+<!-- En Pausa / Inactivos -->
+<div class="relative bg-surface-container-lowest p-space-md rounded-xl shadow-sm overflow-hidden flex flex-col justify-between">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-outline"></div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-label-badge text-label-badge uppercase tracking-wider font-semibold">En Pausa / Inactivos</span>
+<span class="material-symbols-outlined text-[20px]">pause_circle</span>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">1</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium">Standby</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 truncate">ModGuard 3000</p>
+</div>
+</div>
+<!-- Grid de Agentes -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Tarjeta 1: SupportBot Alpha -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col justify-between p-space-lg relative overflow-hidden group">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-secondary font-headline-sm font-bold shrink-0">
+<span class="material-symbols-outlined text-[26px]">support_agent</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface truncate">SupportBot Alpha</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+              Propietario: <span class="font-semibold text-on-surface">Ana Martínez</span> <span class="text-on-surface-variant font-normal">(TechCorp)</span>
+</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Badge Activo -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-green-700 bg-green-50 font-label-badge text-label-badge font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+            Activo
+          </span>
+<!-- Dropdown Trigger -->
+<div class="relative">
+<button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" onclick="toggleMenu('menu-agent-1')" title="Opciones">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 top-8 w-36 bg-surface-container-lowest rounded-lg shadow-lg py-1 z-30 flex flex-col text-left" id="menu-agent-1">
+<button class="flex items-center gap-2 px-3 py-2 text-on-surface hover:bg-surface-container-low font-body-sm text-body-sm" onclick="openConfigModal('SupportBot Alpha', 'v2.4 • Llama-3-70b-instruct', 'Eres un asistente de soporte técnico especializado en resolución de incidencias L2 para clientes enterprise de AgentHub. Mantén un tono empático, preciso y técnico. Prioriza la seguridad de datos del usuario en cada interacción.')">
+<span class="material-symbols-outlined text-[16px]">tune</span> Configurar
+              </button>
+<button class="flex items-center gap-2 px-3 py-2 text-error hover:bg-error-container/20 font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Info del Modelo -->
+<div class="mt-4 flex items-center gap-2 font-label-code text-label-code text-on-surface-variant bg-surface-container-low px-3 py-1.5 rounded-lg w-fit">
+<span class="material-symbols-outlined text-[16px] text-secondary">memory</span>
+<span class="font-semibold text-on-surface">v2.4</span>
+<span>•</span>
+<span>Llama-3-70b-instruct</span>
+</div>
+<!-- Skills Chips -->
+<div class="mt-4">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant font-semibold">Skills Habilitadas (2)</span>
+<button class="font-body-sm text-body-sm text-secondary hover:underline font-medium flex items-center gap-0.5" onclick="toggleSkills('skills-1', this)">
+<span>Ver detalles</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">psychology</span>
+            Análisis de sentimiento
+          </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">forum</span>
+            Atención al cliente
+          </span>
+</div>
+<!-- Contenido colapsable extendido -->
+<div class="hidden mt-2 p-2.5 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface-variant flex flex-col gap-1" id="skills-1">
+<div class="flex justify-between"><span>Latencia inferencia P95:</span> <span class="font-semibold text-on-surface font-label-code">420ms</span></div>
+<div class="flex justify-between"><span>Acceso a Vector DB:</span> <span class="text-green-700 font-medium">Habilitado (kb-prod-01)</span></div>
+</div>
+</div>
+<!-- Telemetría / Métricas -->
+<div class="mt-5 pt-3 flex items-center justify-between bg-surface-container-low/60 -mx-space-lg -mb-space-lg px-space-lg py-2.5 rounded-b-xl">
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-green-600">monitoring</span>
+<span>SLA: <strong class="text-on-surface">99.8%</strong></span>
+</div>
+<span class="text-on-surface-variant">•</span>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">bolt</span>
+<span><strong class="text-on-surface">1,240</strong> invocaciones/día</span>
+</div>
+</div>
+</div>
+<!-- Tarjeta 2: DataMiner X -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col justify-between p-space-lg relative overflow-hidden group">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-error-container/40 flex items-center justify-center text-error font-headline-sm font-bold shrink-0">
+<span class="material-symbols-outlined text-[26px]">database</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface truncate">DataMiner X</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+              Propietario: <span class="font-semibold text-on-surface">David Kim</span> <span class="text-on-surface-variant font-normal">(CloudNine)</span>
+</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Badge Fallando -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-error bg-error-container/50 font-label-badge text-label-badge font-semibold">
+<span class="material-symbols-outlined text-[14px]">error</span>
+            Fallando
+          </span>
+<!-- Dropdown Trigger -->
+<div class="relative">
+<button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" onclick="toggleMenu('menu-agent-2')" title="Opciones">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 top-8 w-36 bg-surface-container-lowest rounded-lg shadow-lg py-1 z-30 flex flex-col text-left" id="menu-agent-2">
+<button class="flex items-center gap-2 px-3 py-2 text-on-surface hover:bg-surface-container-low font-body-sm text-body-sm" onclick="openConfigModal('DataMiner X', 'v1.8 • Claude-3.5-Sonnet', 'Eres un motor de extracción estructurada y análisis de pipelines de datos masivos. Extrae únicamente esquemas JSON conformes al dialecto RFC 8259 sin markdown extra.')">
+<span class="material-symbols-outlined text-[16px]">tune</span> Configurar
+              </button>
+<button class="flex items-center gap-2 px-3 py-2 text-error hover:bg-error-container/20 font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Info del Modelo -->
+<div class="mt-4 flex items-center gap-2 font-label-code text-label-code text-on-surface-variant bg-surface-container-low px-3 py-1.5 rounded-lg w-fit">
+<span class="material-symbols-outlined text-[16px] text-secondary">memory</span>
+<span class="font-semibold text-on-surface">v1.8</span>
+<span>•</span>
+<span>Claude-3.5-Sonnet</span>
+</div>
+<!-- Skills Chips -->
+<div class="mt-4">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant font-semibold">Skills Habilitadas (2)</span>
+<button class="font-body-sm text-body-sm text-secondary hover:underline font-medium flex items-center gap-0.5" onclick="toggleSkills('skills-2', this)">
+<span>Ver detalles</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">analytics</span>
+            Análisis de datos
+          </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">description</span>
+            Generación de informes
+          </span>
+</div>
+<!-- Contenido colapsable extendido -->
+<div class="hidden mt-2 p-2.5 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface-variant flex flex-col gap-1" id="skills-2">
+<div class="flex justify-between"><span>Conector Snowflake:</span> <span class="text-error font-medium">Re-autenticación requerida</span></div>
+<div class="flex justify-between"><span>Límite de memoria:</span> <span class="font-label-code text-on-surface">32GB (98% usado)</span></div>
+</div>
+</div>
+<!-- Alerta / Incidencia -->
+<div class="mt-5 pt-3 flex items-center justify-between bg-error-container/30 -mx-space-lg -mb-space-lg px-space-lg py-2.5 rounded-b-xl">
+<div class="flex items-center gap-2 text-error font-body-sm text-body-sm font-medium">
+<span class="material-symbols-outlined text-[18px]">alarm_on</span>
+<span>Último timeout: <strong>hace 14m</strong> (HTTP 504)</span>
+</div>
+<button class="font-body-sm text-body-sm font-semibold text-error hover:underline flex items-center" onclick="openConfigModal('DataMiner X', 'v1.8 • Claude-3.5-Sonnet', 'Eres un motor de extracción estructurada y análisis de pipelines de datos masivos. Extrae únicamente esquemas JSON conformes al dialecto RFC 8259 sin markdown extra.')">
+          Depurar
+        </button>
+</div>
+</div>
+<!-- Tarjeta 3: TransLingua Pro -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col justify-between p-space-lg relative overflow-hidden group">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-secondary font-headline-sm font-bold shrink-0">
+<span class="material-symbols-outlined text-[26px]">translate</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface truncate">TransLingua Pro</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+              Propietario: <span class="font-semibold text-on-surface">Carlos López</span> <span class="text-on-surface-variant font-normal">(DataFlow)</span>
+</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Badge Activo -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-green-700 bg-green-50 font-label-badge text-label-badge font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+            Activo
+          </span>
+<!-- Dropdown Trigger -->
+<div class="relative">
+<button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" onclick="toggleMenu('menu-agent-3')" title="Opciones">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 top-8 w-36 bg-surface-container-lowest rounded-lg shadow-lg py-1 z-30 flex flex-col text-left" id="menu-agent-3">
+<button class="flex items-center gap-2 px-3 py-2 text-on-surface hover:bg-surface-container-low font-body-sm text-body-sm" onclick="openConfigModal('TransLingua Pro', 'v3.1 • GPT-4o Multi', 'Eres un traductor simultáneo multilingüe especializado en correspondencia diplomática y contratos internacionales. Conserva la precisión idiomática y el tono contractual.')">
+<span class="material-symbols-outlined text-[16px]">tune</span> Configurar
+              </button>
+<button class="flex items-center gap-2 px-3 py-2 text-error hover:bg-error-container/20 font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Info del Modelo -->
+<div class="mt-4 flex items-center gap-2 font-label-code text-label-code text-on-surface-variant bg-surface-container-low px-3 py-1.5 rounded-lg w-fit">
+<span class="material-symbols-outlined text-[16px] text-secondary">memory</span>
+<span class="font-semibold text-on-surface">v3.1</span>
+<span>•</span>
+<span>GPT-4o Multi</span>
+</div>
+<!-- Skills Chips -->
+<div class="mt-4">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant font-semibold">Skills Habilitadas (2)</span>
+<button class="font-body-sm text-body-sm text-secondary hover:underline font-medium flex items-center gap-0.5" onclick="toggleSkills('skills-3', this)">
+<span>Ver detalles</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">language</span>
+            Traducción automática
+          </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">spellcheck</span>
+            Detección de idiomas
+          </span>
+</div>
+<!-- Contenido colapsable extendido -->
+<div class="hidden mt-2 p-2.5 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface-variant flex flex-col gap-1" id="skills-3">
+<div class="flex justify-between"><span>Idiomas soportados:</span> <span class="font-semibold text-on-surface">48 pares de idiomas</span></div>
+<div class="flex justify-between"><span>Glosario terminológico:</span> <span class="text-secondary font-medium">Activo (Legal-v4)</span></div>
+</div>
+</div>
+<!-- Telemetría / Métricas -->
+<div class="mt-5 pt-3 flex items-center justify-between bg-surface-container-low/60 -mx-space-lg -mb-space-lg px-space-lg py-2.5 rounded-b-xl">
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-green-600">monitoring</span>
+<span>SLA: <strong class="text-on-surface">99.95%</strong></span>
+</div>
+<span class="text-on-surface-variant">•</span>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">bolt</span>
+<span><strong class="text-on-surface">4,810</strong> invocaciones/día</span>
+</div>
+</div>
+</div>
+<!-- Tarjeta 4: ModGuard 3000 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col justify-between p-space-lg relative overflow-hidden group">
+<div class="flex items-start justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-surface-container-low flex items-center justify-center text-on-surface-variant font-headline-sm font-bold shrink-0">
+<span class="material-symbols-outlined text-[26px]">gavel</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface truncate">ModGuard 3000</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+              Propietario: <span class="font-semibold text-on-surface">Elena García</span> <span class="text-on-surface-variant font-normal">(Innovatech)</span>
+</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<!-- Badge Inactivo -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-on-surface-variant bg-surface-container font-label-badge text-label-badge font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+            Inactivo
+          </span>
+<!-- Dropdown Trigger -->
+<div class="relative">
+<button class="p-1 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" onclick="toggleMenu('menu-agent-4')" title="Opciones">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+<div class="hidden absolute right-0 top-8 w-36 bg-surface-container-lowest rounded-lg shadow-lg py-1 z-30 flex flex-col text-left" id="menu-agent-4">
+<button class="flex items-center gap-2 px-3 py-2 text-on-surface hover:bg-surface-container-low font-body-sm text-body-sm" onclick="openConfigModal('ModGuard 3000', 'v1.2 • Mistral-Large-2', 'Eres un moderador de contenido autónomo para comunidades masivas en tiempo real. Aplica las directrices de seguridad de contenido según las políticas estándar de la UE.')">
+<span class="material-symbols-outlined text-[16px]">tune</span> Configurar
+              </button>
+<button class="flex items-center gap-2 px-3 py-2 text-error hover:bg-error-container/20 font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">delete</span> Eliminar
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Info del Modelo -->
+<div class="mt-4 flex items-center gap-2 font-label-code text-label-code text-on-surface-variant bg-surface-container-low px-3 py-1.5 rounded-lg w-fit">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">memory</span>
+<span class="font-semibold text-on-surface">v1.2</span>
+<span>•</span>
+<span>Mistral-Large-2</span>
+</div>
+<!-- Skills Chips -->
+<div class="mt-4">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-badge text-label-badge uppercase tracking-wider text-on-surface-variant font-semibold">Skills Habilitadas (2)</span>
+<button class="font-body-sm text-body-sm text-secondary hover:underline font-medium flex items-center gap-0.5" onclick="toggleSkills('skills-4', this)">
+<span>Ver detalles</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-1.5">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">shield</span>
+            Moderación de contenido
+          </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">block</span>
+            Filtro de toxicidad
+          </span>
+</div>
+<!-- Contenido colapsable extendido -->
+<div class="hidden mt-2 p-2.5 bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface-variant flex flex-col gap-1" id="skills-4">
+<div class="flex justify-between"><span>Razón de pausa:</span> <span class="font-semibold text-on-surface">Mantenimiento programado</span></div>
+<div class="flex justify-between"><span>Retención de logs:</span> <span>30 días (GDPR compliance)</span></div>
+</div>
+</div>
+<!-- Telemetría / Métricas -->
+<div class="mt-5 pt-3 flex items-center justify-between bg-surface-container-low/60 -mx-space-lg -mb-space-lg px-space-lg py-2.5 rounded-b-xl">
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">power_settings_new</span>
+<span>Desconectado</span>
+</div>
+<span class="text-on-surface-variant">•</span>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span>0 invocaciones activas</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal de Inspección / Configuración de System Prompt -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-on-surface/40 backdrop-blur-sm transition-opacity duration-200" id="config-modal">
+<div class="bg-surface-container-lowest rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-150">
+<!-- Cabecera del Modal -->
+<div class="px-space-lg py-4 bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm font-semibold text-on-surface leading-tight" id="modal-title">Configuración de System Prompt</h3>
+<p class="font-label-code text-label-code text-on-surface-variant" id="modal-subtitle">SupportBot Alpha • v2.4 (Llama-3-70b-instruct)</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" onclick="closeConfigModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Cuerpo del Modal -->
+<div class="p-space-lg flex flex-col gap-space-md">
+<div>
+<div class="flex items-center justify-between mb-2">
+<label class="font-body-sm text-body-sm font-semibold text-on-surface flex items-center gap-1.5">
+<span>Instrucciones Maestras del Sistema</span>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" title="Define la personalidad, restricciones y contexto base del agente">info</span>
+</label>
+<span class="font-label-code text-label-code text-on-surface-variant">Tokens estimados: ~280</span>
+</div>
+<div class="relative">
+<textarea class="w-full bg-surface-container-low p-3.5 rounded-xl font-label-code text-label-code text-on-surface outline-none focus:bg-surface-container transition-colors resize-y leading-relaxed" id="modal-textarea" rows="6">Eres un asistente de soporte técnico especializado en resolución de incidencias L2 para clientes enterprise de AgentHub. Mantén un tono empático, preciso y técnico. Prioriza la seguridad de datos del usuario en cada interacción.</textarea>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+<div class="p-3 bg-surface-container-low rounded-xl flex items-center justify-between">
+<div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface">Temperatura de muestreo</p>
+<p class="font-label-code text-label-code text-on-surface-variant">0.2 (Determinista)</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-[22px]">thermostat</span>
+</div>
+<div class="p-3 bg-surface-container-low rounded-xl flex items-center justify-between">
+<div>
+<p class="font-body-sm text-body-sm font-medium text-on-surface">Límite de Context Window</p>
+<p class="font-label-code text-label-code text-on-surface-variant">8,192 tokens</p>
+</div>
+<span class="material-symbols-outlined text-secondary text-[22px]">memory</span>
+</div>
+</div>
+<!-- Banner de validación / guardado -->
+<div class="hidden p-3 rounded-lg bg-green-50 text-green-800 font-body-sm text-body-sm flex items-center gap-2" id="save-toast">
+<span class="material-symbols-outlined text-[18px] text-green-600">check_circle</span>
+<span>System prompt desplegado exitosamente a los nodos de inferencia.</span>
+</div>
+</div>
+<!-- Pie del Modal -->
+<div class="px-space-lg py-3.5 bg-surface-container-low/70 flex items-center justify-end gap-space-sm">
+<button class="px-4 py-2 rounded-lg font-body-sm text-body-sm font-medium text-on-surface hover:bg-surface-container transition-colors" onclick="closeConfigModal()">
+          Cancelar
+        </button>
+<button class="flex items-center gap-1.5 bg-primary hover:bg-slate-800 text-on-primary font-body-sm text-body-sm font-semibold px-4 py-2 rounded-lg shadow-sm transition-colors" onclick="saveConfigPrompt()">
+<span class="material-symbols-outlined text-[16px]">save</span>
+<span>Guardar cambios</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Resaltar sección activa en la barra lateral
+  (function setActiveNav() {
+    const navItems = document.querySelectorAll('aside nav a');
+    navItems.forEach(item => {
+      if (item.getAttribute('data-path') === 'gestion-de-agentes') {
+        item.className = 'flex items-center gap-3 px-3 py-2.5 bg-surface-container text-on-surface font-headline-sm font-semibold rounded-lg group';
+        const icon = item.querySelector('.material-symbols-outlined');
+        if (icon) icon.className = 'material-symbols-outlined text-[20px] shrink-0 text-secondary';
+      } else {
+        item.className = 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors group';
+      }
+    });
+  })();
+
+  // Toggle de visibilidad de detalles de skills
+  function toggleSkills(elementId, btn) {
+    const container = document.getElementById(elementId);
+    if (!container) return;
+    const isHidden = container.classList.contains('hidden');
+    if (isHidden) {
+      container.classList.remove('hidden');
+      btn.querySelector('span:first-child').innerText = 'Ocultar detalles';
+      btn.querySelector('.material-symbols-outlined').innerText = 'expand_less';
+    } else {
+      container.classList.add('hidden');
+      btn.querySelector('span:first-child').innerText = 'Ver detalles';
+      btn.querySelector('.material-symbols-outlined').innerText = 'expand_more';
+    }
+  }
+
+  // Toggle dropdown de opciones
+  function toggleMenu(menuId) {
+    const menus = document.querySelectorAll('[id^="menu-agent-"]');
+    menus.forEach(m => {
+      if (m.id === menuId) {
+        m.classList.toggle('hidden');
+      } else {
+        m.classList.add('hidden');
+      }
+    });
+  }
+
+  // Cerrar menús al hacer click afuera
+  window.addEventListener('click', function(e) {
+    if (!e.target.closest('[onclick^="toggleMenu"]') && !e.target.closest('[id^="menu-agent-"]')) {
+      document.querySelectorAll('[id^="menu-agent-"]').forEach(m => m.classList.add('hidden'));
+    }
+  });
+
+  // Modal de configuración de system prompt
+  function openConfigModal(agentName, modelInfo, promptContent) {
+    const modal = document.getElementById('config-modal');
+    const title = document.getElementById('modal-title');
+    const subtitle = document.getElementById('modal-subtitle');
+    const textarea = document.getElementById('modal-textarea');
+    const toast = document.getElementById('save-toast');
+
+    if (toast) toast.classList.add('hidden');
+    if (title) title.innerText = `Configuración de System Prompt: ${agentName}`;
+    if (subtitle) subtitle.innerText = `${agentName} • ${modelInfo}`;
+    if (textarea) textarea.value = promptContent;
+
+    modal.classList.remove('hidden');
+    document.querySelectorAll('[id^="menu-agent-"]').forEach(m => m.classList.add('hidden'));
+  }
+
+  function closeConfigModal() {
+    const modal = document.getElementById('config-modal');
+    modal.classList.add('hidden');
+  }
+
+  function saveConfigPrompt() {
+    const toast = document.getElementById('save-toast');
+    if (toast) {
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        closeConfigModal();
+      }, 1200);
+    } else {
+      closeConfigModal();
+    }
+  }
+
+  // Abrir modal desde botón 'Desplegar nuevo agente'
+  document.getElementById('btn-open-create')?.addEventListener('click', function() {
+    openConfigModal('Nuevo Agente', 'v1.0 • GPT-4o Mini', 'Define aquí el rol, propósito y restricciones operativas del nuevo agente autónomo...');
+  });
+</script></main></div></body></html>

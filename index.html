@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="es" class="">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>AgentHub — Panel de Administración</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Hanken Grotesk', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          fontSize: {
+            'display': ['3rem', { lineHeight: '1.15', fontWeight: '700', letterSpacing: '-0.03em' }],
+            'headline-lg': ['2rem', { lineHeight: '1.25', fontWeight: '600', letterSpacing: '-0.02em' }],
+            'headline-md': ['1.25rem', { lineHeight: '1.4', fontWeight: '600', letterSpacing: '-0.01em' }],
+            'headline-sm': ['1.125rem', { lineHeight: '1.4', fontWeight: '600', letterSpacing: '-0.005em' }],
+            'body-lg': ['1rem', { lineHeight: '1.5', fontWeight: '400' }],
+            'body-md': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],
+            'body-sm': ['0.75rem', { lineHeight: '1.4', fontWeight: '400', letterSpacing: '0.005em' }],
+            'label-code': ['0.75rem', { lineHeight: '1.25', fontWeight: '500', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '-0.01em' }],
+            'label-badge': ['0.6875rem', { lineHeight: '1', fontWeight: '600', letterSpacing: '0.02em' }],
+            'metric-display': ['1.875rem', { lineHeight: '2.25rem', fontWeight: '700', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '-0.03em' }],
+          },
+          borderRadius: {
+            'sm': '0.25rem',
+            'DEFAULT': '0.5rem',
+            'md': '0.75rem',
+            'lg': '1rem',
+            'xl': '1.5rem',
+          },
+          spacing: {
+            'space-xs': '0.25rem',
+            'space-sm': '0.5rem',
+            'space-md': '1rem',
+            'space-lg': '1.5rem',
+            'space-xl': '2rem',
+          },
+          maxWidth: {
+            'sidebar': '260px',
+            'sidebar-collapsed': '68px',
+          },
+        }
+      }
+    };
+  </script>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; font-family: 'Inter', sans-serif; }
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+      .dark ::-webkit-scrollbar-thumb { background: #475569; }
+      .skill-list { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+      .skill-list.open { max-height: 300px; }
+      .modal-overlay { opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+      .modal-overlay.open { opacity: 1; pointer-events: all; }
+      .modal-content { transform: scale(0.95) translateY(10px); transition: transform 0.2s ease; }
+      .modal-overlay.open .modal-content { transform: scale(1) translateY(0); }
+      .section-content { display: none; }
+      .section-content.active { display: block; }
+      .dropdown-menu { opacity: 0; pointer-events: none; transform: translateY(-4px); transition: opacity 0.15s ease, transform 0.15s ease; }
+      .dropdown-menu.open { opacity: 1; pointer-events: all; transform: translateY(0); }
+      .resolved-row { opacity: 0.5; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors duration-300">
+
+  <!-- ============================================================ -->
+  <!-- LAYOUT: SIDEBAR + HEADER + MAIN                              -->
+  <!-- ============================================================ -->
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="fixed top-0 left-0 z-30 h-screen bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transition-all duration-300 flex flex-col w-[260px] lg:w-[260px] -translate-x-full lg:translate-x-0">
+    <!-- Logo -->
+    <div class="flex items-center gap-2 h-16 shrink-0 border-b border-slate-200 dark:border-slate-800 px-4">
+      <img src="AgentsHub.svg" alt="AgentHub" class="h-9 w-auto block dark:hidden" />
+      <img src="AgentsHub_dark.svg" alt="AgentHub" class="h-9 w-auto hidden dark:block" />
+    </div>
+    <!-- Navigation -->
+    <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <a href="#" data-section="dashboard" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 transition-colors group">
+        <span class="nav-icon w-5 h-5 shrink-0 flex items-center justify-center" data-icon="dashboard"></span>
+        <span class="whitespace-nowrap">Dashboard</span>
+      </a>
+      <a href="#" data-section="usuarios" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 transition-colors group">
+        <span class="nav-icon w-5 h-5 shrink-0 flex items-center justify-center" data-icon="user"></span>
+        <span class="whitespace-nowrap">Gestión de usuarios</span>
+      </a>
+      <a href="#" data-section="agentes" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 transition-colors group">
+        <span class="nav-icon w-5 h-5 shrink-0 flex items-center justify-center" data-icon="agents"></span>
+        <span class="whitespace-nowrap">Gestión de agentes</span>
+      </a>
+      <a href="#" data-section="skills" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 transition-colors group">
+        <span class="nav-icon w-5 h-5 shrink-0 flex items-center justify-center" data-icon="skills"></span>
+        <span class="whitespace-nowrap">Skills</span>
+      </a>
+      <a href="#" data-section="contrataciones" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 transition-colors group">
+        <span class="nav-icon w-5 h-5 shrink-0 flex items-center justify-center" data-icon="contract"></span>
+        <span class="whitespace-nowrap">Contrataciones</span>
+      </a>
+      <a href="#" data-section="log-errores" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 transition-colors group">
+        <span class="nav-icon w-5 h-5 shrink-0 flex items-center justify-center" data-icon="error"></span>
+        <span class="whitespace-nowrap">Log de errores</span>
+      </a>
+    </nav>
+    <!-- Sidebar footer -->
+    <div class="p-4 border-t border-slate-200 dark:border-slate-800">
+      <div class="flex items-center gap-3 px-3 py-2 text-xs text-slate-400 dark:text-slate-500">
+        <span class="w-2 h-2 rounded-full bg-green-500"></span>
+        <span class="font-mono text-label-code">Sistema operativo</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mobile sidebar backdrop -->
+  <div id="sidebar-backdrop" class="fixed inset-0 z-20 bg-black/30 lg:hidden hidden" onclick="toggleSidebar()"></div>
+
+  <!-- Main wrapper -->
+  <div class="lg:ml-[260px] transition-all duration-300">
+    <!-- Header -->
+    <header class="sticky top-0 z-10 h-16 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 lg:px-6">
+      <div class="flex items-center gap-3">
+        <!-- Hamburger (mobile/tablet) -->
+        <button id="hamburger-btn" class="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onclick="toggleSidebar()">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <h1 id="section-title" class="font-heading text-headline-md text-slate-900 dark:text-slate-50">Dashboard</h1>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Theme toggle -->
+        <button id="theme-toggle" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onclick="toggleTheme()" title="Cambiar modo oscuro/claro">
+          <!-- Sun icon (shown in dark mode) -->
+          <span id="theme-icon-sun" class="hidden dark:inline-flex w-5 h-5 items-center justify-center">
+            <svg class="w-5 h-5 text-slate-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.28451 10.3333C7.10026 10.8546 7 11.4156 7 12C7 14.7614 9.23858 17 12 17C14.7614 17 17 14.7614 17 12C17 9.23858 14.7614 7 12 7C11.4156 7 10.8546 7.10026 10.3333 7.28451" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M12 2V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M12 20V22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M4 12L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M22 12L20 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M19.7778 4.22266L17.5558 6.25424" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M4.22217 4.22266L6.44418 6.25424" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M6.44434 17.5557L4.22211 19.7779" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M19.7778 19.7773L17.5558 17.5551" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <!-- Moon icon (shown in light mode) -->
+          <span id="theme-icon-moon" class="inline-flex dark:hidden w-5 h-5 items-center justify-center">
+            <svg class="w-5 h-5 text-slate-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21.0672 11.8568L20.4253 11.469L21.0672 11.8568ZM12.1432 2.93276L11.7553 2.29085V2.29085L12.1432 2.93276ZM21.25 12C21.25 17.1086 17.1086 21.25 12 21.25V22.75C17.9371 22.75 22.75 17.9371 22.75 12H21.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75V1.25C6.06294 1.25 1.25 6.06294 1.25 12H2.75ZM12 21.25C6.89137 21.25 2.75 17.1086 2.75 12H1.25C1.25 17.9371 6.06294 22.75 12 22.75V21.25ZM21.7092 12.2447C20.4407 14.3439 18.1349 15.75 15.5 15.75V14.25C17.5882 14.25 19.4172 13.1373 20.4253 11.469L21.7092 12.2447ZM9.75 8.5C9.75 10.5882 10.8627 12.4172 12.531 13.4253L11.7553 14.7092C9.65609 13.4407 8.25 11.1349 8.25 8.5H9.75ZM12 2.75C12.0885 2.75 12.1923 2.71008 12.2676 2.63168C12.3314 2.56527 12.3462 2.50244 12.3497 2.47703C12.3539 2.44587 12.3518 2.35557 12.2447 2.29085L12.531 3.57467C13.0342 3.27065 13.196 2.71398 13.1368 2.27627C13.0754 1.82126 12.7166 1.25 12 1.25V2.75ZM20.4253 11.469C20.7293 10.9658 21.286 10.804 21.7237 10.8632C22.1787 10.9246 22.75 11.2834 22.75 12H21.25Z" fill="currentColor"/>
+            </svg>
+          </span>
+        </button>
+        <!-- Avatar / Profile -->
+        <div class="relative">
+          <button id="profile-btn" class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" onclick="toggleDropdown('profile-dropdown', event)">
+            <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-sm font-medium text-slate-600 dark:text-slate-300">AD</div>
+            <span class="hidden sm:inline text-sm text-slate-700 dark:text-slate-300">Admin</span>
+            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div id="profile-dropdown" class="dropdown-menu absolute right-0 top-full mt-1 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-50">
+            <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">Perfil</a>
+            <a href="#" class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">Configuración</a>
+            <hr class="my-1 border-slate-200 dark:border-slate-700">
+            <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-slate-100 dark:hover:bg-slate-700">Cerrar sesión</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="p-4 lg:p-6 space-y-6">
+
+      <!-- ============================================================ -->
+      <!-- SECTION: DASHBOARD                                          -->
+      <!-- ============================================================ -->
+      <section id="section-dashboard" class="section-content active">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="w-2 h-2 rounded-full bg-blue-600 dark:bg-sky-400"></span>
+              <span class="font-mono text-label-code text-slate-500 dark:text-slate-400 uppercase tracking-wider">Centro de Telemetría</span>
+            </div>
+            <h2 class="font-heading text-headline-lg text-slate-900 dark:text-slate-50 tracking-tight">De un vistazo</h2>
+            <p class="text-body-md text-slate-500 dark:text-slate-400 mt-0.5">Métricas operativas del clúster de agentes y balance comercial.</p>
+          </div>
+        </div>
+
+        <!-- Metric cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6" id="dashboard-metrics">
+          <!-- Filled by JS -->
+        </div>
+
+        <!-- Chart placeholder -->
+        <div class="w-full h-[200px] border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 rounded-lg flex items-center justify-center">
+          <p class="text-slate-400 dark:text-slate-500 text-body-md font-medium">Gráfico de actividad semanal</p>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION: USUARIOS                                           -->
+      <!-- ============================================================ -->
+      <section id="section-usuarios" class="section-content">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-label-badge uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Control de Acceso</span>
+              <span class="font-mono text-label-code text-slate-500 dark:text-slate-400">IAM • Tenants</span>
+            </div>
+            <h2 class="font-heading text-headline-lg text-slate-900 dark:text-slate-50 tracking-tight">Gestión de usuarios</h2>
+            <p class="text-body-md text-slate-500 dark:text-slate-400 mt-1">Supervisa credenciales corporativas y estado operativo de cuentas.</p>
+          </div>
+        </div>
+
+        <!-- Users table -->
+        <div class="overflow-x-auto bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-100 dark:bg-slate-800 text-left">
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Nombre</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Email</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Plan</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Estado</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300"></th>
+              </tr>
+            </thead>
+            <tbody id="users-table-body" class="divide-y divide-slate-200 dark:divide-slate-800">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION: AGENTES                                            -->
+      <!-- ============================================================ -->
+      <section id="section-agentes" class="section-content">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-label-badge uppercase tracking-wider text-blue-600 dark:text-sky-400 font-semibold">ORQUESTACIÓN DE FLOTA</span>
+              <span class="text-slate-400">•</span>
+              <span class="text-label-badge uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium">AGENTES AUTÓNOMOS</span>
+            </div>
+            <h2 class="font-heading text-headline-lg text-slate-900 dark:text-slate-50 tracking-tight">Gestión de agentes</h2>
+            <p class="text-body-md text-slate-500 dark:text-slate-400 mt-1 max-w-3xl">Administra el ciclo de vida, configuración de system prompts y asignación de skills.</p>
+          </div>
+        </div>
+
+        <!-- Agent cards grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="agents-grid">
+          <!-- Filled by JS -->
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION: SKILLS                                             -->
+      <!-- ============================================================ -->
+      <section id="section-skills" class="section-content">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="font-mono text-label-code text-slate-500 dark:text-slate-400 tracking-wider uppercase">Capacidades Modulares</span>
+              <span class="text-slate-300 dark:text-slate-600">•</span>
+              <span class="font-mono text-label-code text-slate-500 dark:text-slate-400 tracking-wider uppercase">Catálogo de Herramientas</span>
+            </div>
+            <h2 class="font-heading text-headline-lg text-slate-900 dark:text-slate-50 tracking-tight">Skills</h2>
+          </div>
+        </div>
+
+        <!-- Explanatory notice -->
+        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 flex items-start gap-3.5 mb-6 border border-blue-100 dark:border-blue-900/30">
+          <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-800/40 flex items-center justify-center shrink-0 text-blue-600 dark:text-blue-400 mt-0.5">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div>
+            <span class="font-heading text-headline-sm font-semibold text-blue-700 dark:text-blue-300">Definición de Capacidades del Sistema</span>
+            <p class="text-body-md text-slate-600 dark:text-slate-300 leading-relaxed mt-0.5">
+              Las skills son capacidades especializadas que pueden asignarse a los agentes de IA. Cada skill define un área de conocimiento o una tarea específica que el agente puede ejecutar, como análisis de sentimiento, traducción automática o generación de informes.
+            </p>
+          </div>
+        </div>
+
+        <!-- Skills grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="skills-grid">
+          <!-- Filled by JS -->
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION: CONTRATACIONES                                     -->
+      <!-- ============================================================ -->
+      <section id="section-contrataciones" class="section-content">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-label-badge uppercase tracking-wider bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full text-slate-500 dark:text-slate-400 font-semibold">Licenciamiento B2B • Acuerdos SLA</span>
+            </div>
+            <h2 class="font-heading text-headline-lg text-slate-900 dark:text-slate-50 tracking-tight">Contrataciones de agentes</h2>
+            <p class="text-body-md text-slate-500 dark:text-slate-400 mt-1 max-w-2xl">Supervisa los acuerdos B2B vigentes, períodos de licenciamiento y facturación recurrente por skills.</p>
+          </div>
+        </div>
+
+        <!-- Contracts table -->
+        <div class="overflow-x-auto bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-100 dark:bg-slate-800 text-left">
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Cliente</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Agente</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Skills contratadas</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Inicio</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Fin</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Importe</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300"></th>
+              </tr>
+            </thead>
+            <tbody id="contracts-table-body" class="divide-y divide-slate-200 dark:divide-slate-800">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SECTION: LOG DE ERRORES                                     -->
+      <!-- ============================================================ -->
+      <section id="section-log-errores" class="section-content">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-blue-600 dark:text-sky-400 text-label-badge uppercase tracking-widest font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-sky-400"></span>
+                Live Pipeline
+              </span>
+              <span class="font-mono text-label-code text-slate-500 dark:text-slate-400 tracking-wider uppercase">Monitorización • Incidencias</span>
+            </div>
+            <h2 class="font-heading text-headline-lg text-slate-900 dark:text-slate-50 tracking-tight">Log de errores</h2>
+            <p class="text-body-md text-slate-500 dark:text-slate-400 mt-1 max-w-3xl">Registro de excepciones, caídas y timeouts en los agentes desplegados.</p>
+          </div>
+        </div>
+
+        <!-- Error log table -->
+        <div class="overflow-x-auto bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-100 dark:bg-slate-800 text-left">
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Timestamp</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Agente</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Tipo</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300">Descripción</th>
+                <th class="px-4 py-3 font-heading text-headline-sm text-slate-700 dark:text-slate-300"></th>
+              </tr>
+            </thead>
+            <tbody id="errors-table-body" class="divide-y divide-slate-200 dark:divide-slate-800">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL OVERLAY                                               -->
+  <!-- ============================================================ -->
+  <div id="modal-overlay" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+    <div id="modal-content" class="modal-content bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 w-full max-w-lg max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
+        <h3 id="modal-title" class="font-heading text-headline-md text-slate-900 dark:text-slate-50"></h3>
+        <button onclick="closeModal()" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          <span class="w-5 h-5 flex items-center justify-center">
+            <svg class="w-5 h-5 text-slate-400" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" fill-rule="evenodd"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div id="modal-body" class="px-6 py-4 text-body-md text-slate-600 dark:text-slate-300">
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT                                                  -->
+  <!-- ============================================================ -->
+  <script>
+    // =============================================================
+    // APP_DATA: Hardcoded datos (T2)
+    // =============================================================
+    const APP_DATA = {
+      users: [
+        { id: 1, nombre: 'Ana Martínez', email: 'ana@techcorp.com', plan: 'Enterprise', estado: 'Activo', empresa: 'TechCorp Inc.', fechaRegistro: '2025-03-15' },
+        { id: 2, nombre: 'Carlos López', email: 'carlos@dataflow.io', plan: 'Professional', estado: 'Activo', empresa: 'DataFlow Solutions', fechaRegistro: '2025-06-20' },
+        { id: 3, nombre: 'Elena García', email: 'elena@innovatech.es', plan: 'Starter', estado: 'Pendiente', empresa: 'Innovatech ES', fechaRegistro: '2026-01-10' },
+        { id: 4, nombre: 'David Kim', email: 'david@cloudnine.dev', plan: 'Enterprise', estado: 'Activo', empresa: 'CloudNine Dev', fechaRegistro: '2025-09-01' },
+        { id: 5, nombre: 'Sofía Torres', email: 'sofia@nexusai.co', plan: 'Professional', estado: 'Inactivo', empresa: 'Nexus AI Co.', fechaRegistro: '2025-11-05' },
+      ],
+      agents: [
+        { id: 1, nombre: 'SupportBot Alpha', propietario: 'Ana Martínez', estado: 'Activo', skills: ['Análisis de sentimiento', 'Atención al cliente'], prompt: 'Eres un asistente de soporte técnico especializado en resolución de incidencias. Respondes de forma clara y profesional.' },
+        { id: 2, nombre: 'DataMiner X', propietario: 'David Kim', estado: 'Fallando', skills: ['Análisis de datos', 'Generación de informes'], prompt: 'Eres un analista de datos experto. Extraes patrones y generas reportes estructurados a partir de datos tabulares.' },
+        { id: 3, nombre: 'TransLingua Pro', propietario: 'Carlos López', estado: 'Activo', skills: ['Traducción automática', 'Detección de idiomas'], prompt: 'Eres un traductor multilingüe. Traduces texto entre más de 50 idiomas manteniendo el contexto y tono original.' },
+        { id: 4, nombre: 'ModGuard 3000', propietario: 'Elena García', estado: 'Inactivo', skills: ['Moderación de contenido', 'Filtro de toxicidad'], prompt: 'Eres un moderador de contenido. Identificas y filtras lenguaje inapropiado, tóxico u ofensivo en texto.' },
+      ],
+      skills: [
+        { id: 1, nombre: 'Análisis de sentimiento', descripcion: 'Detecta emociones y tono en texto', agentes: ['SupportBot Alpha', 'DataMiner X'], categoria: 'Procesamiento de Lenguaje', fechaCreacion: '2025-01-15' },
+        { id: 2, nombre: 'Traducción automática', descripcion: 'Traduce entre más de 50 idiomas', agentes: ['TransLingua Pro'], categoria: 'Procesamiento de Lenguaje', fechaCreacion: '2025-02-20' },
+        { id: 3, nombre: 'Moderación de contenido', descripcion: 'Identifica contenido inapropiado', agentes: ['ModGuard 3000'], categoria: 'Seguridad y Moderación', fechaCreacion: '2025-03-10' },
+        { id: 4, nombre: 'Generación de informes', descripcion: 'Crea reportes estructurados a partir de datos', agentes: ['DataMiner X', 'SupportBot Alpha'], categoria: 'Datos y Analítica', fechaCreacion: '2025-04-05' },
+        { id: 5, nombre: 'Atención al cliente', descripcion: 'Responde consultas usando base de conocimiento', agentes: ['SupportBot Alpha'], categoria: 'Operaciones y Soporte', fechaCreacion: '2025-01-20' },
+        { id: 6, nombre: 'Detección de idiomas', descripcion: 'Identifica el idioma de un texto automáticamente', agentes: ['TransLingua Pro'], categoria: 'Procesamiento de Lenguaje', fechaCreacion: '2025-02-25' },
+        { id: 7, nombre: 'Filtro de toxicidad', descripcion: 'Detecta lenguaje dañino u ofensivo', agentes: ['ModGuard 3000'], categoria: 'Seguridad y Moderación', fechaCreacion: '2025-03-15' },
+        { id: 8, nombre: 'Análisis de datos', descripcion: 'Extrae patrones y tendencias de grandes volúmenes de datos', agentes: ['DataMiner X'], categoria: 'Datos y Analítica', fechaCreacion: '2025-04-10' },
+      ],
+      contracts: [
+        { id: 1, cliente: 'TechCorp Inc.', agente: 'SupportBot Alpha', skills: ['Análisis de sentimiento', 'Atención al cliente'], inicio: '2026-10-01', fin: '2027-03-31', importe: 2400, estado: 'Activo' },
+        { id: 2, cliente: 'CloudNine Dev', agente: 'DataMiner X', skills: ['Análisis de datos', 'Generación de informes'], inicio: '2026-09-15', fin: '2026-12-15', importe: 1800, estado: 'Activo' },
+        { id: 3, cliente: 'DataFlow Solutions', agente: 'TransLingua Pro', skills: ['Traducción automática', 'Detección de idiomas'], inicio: '2026-11-01', fin: '2027-04-30', importe: 2100, estado: 'Activo' },
+        { id: 4, cliente: 'NovaTech ES', agente: 'ModGuard 3000', skills: ['Moderación de contenido', 'Filtro de toxicidad'], inicio: '2026-08-01', fin: '2026-10-31', importe: 900, estado: 'Completado' },
+      ],
+      errorLogs: [
+        { id: 1, timestamp: '2026-11-20 14:32:01', agente: 'DataMiner X', tipo: 'Timeout', descripcion: 'El agente no respondió dentro del tiempo límite de 30s', stackTrace: 'at Agent.timeout (agent.ts:142)\nat TimerHandler.run (runtime.ts:89)\nat processTimers (scheduler.ts:45)' },
+        { id: 2, timestamp: '2026-11-20 12:15:44', agente: 'DataMiner X', tipo: 'Crash', descripcion: 'Excepción no controlada en el módulo de análisis', stackTrace: 'at AnalysisEngine.process (engine.ts:233)\nat DataMinerX.execute (agent.ts:67)\nat Runtime.invoke (runtime.ts:122)' },
+        { id: 3, timestamp: '2026-11-19 09:47:22', agente: 'SupportBot Alpha', tipo: 'API Error', descripcion: 'La API de sentimiento devolvió un código 503', stackTrace: 'at SentimentAPI.query (api.ts:89)\nat SupportBotAlpha.analyze (agent.ts:45)\nat Runtime.call (runtime.ts:78)' },
+        { id: 4, timestamp: '2026-11-18 22:05:13', agente: 'TransLingua Pro', tipo: 'Validation', descripcion: 'El texto de entrada supera el límite de 10k caracteres', stackTrace: 'at InputValidator.checkLength (validator.ts:34)\nat TransLinguaPro.translate (agent.ts:56)\nat Runtime.execute (runtime.ts:102)' },
+        { id: 5, timestamp: '2026-11-18 16:30:59', agente: 'DataMiner X', tipo: 'Timeout', descripcion: 'Timeout en consulta a base de datos externa', stackTrace: 'at DatabaseConnection.query (db.ts:167)\nat DataSource.fetch (datasource.ts:89)\nat DataMinerX.analyze (agent.ts:91)' },
+        { id: 6, timestamp: '2026-11-17 08:12:36', agente: 'ModGuard 3000', tipo: 'Crash', descripcion: 'Fallo en el motor de filtrado de toxicidad', stackTrace: 'at ToxicityFilter.analyze (filter.ts:201)\nat ModGuard3000.moderate (agent.ts:73)\nat Runtime.execute (runtime.ts:102)' },
+        { id: 7, timestamp: '2026-11-16 19:45:00', agente: 'SupportBot Alpha', tipo: 'API Error', descripcion: 'La API de conocimiento base no está disponible', stackTrace: 'at KnowledgeAPI.query (api.ts:156)\nat SupportBotAlpha.answer (agent.ts:112)\nat Runtime.invoke (runtime.ts:122)' },
+      ],
+      dashboardMetrics: {
+        ingresos: { valor: '$48,250', variacion: '+12.4%', descripcion: 'Facturación consolidada del período fiscal corriente' },
+        perdidas: { valor: '$3,120', variacion: '6.4% total', descripcion: 'Margen cedido por promociones dinámicas y bonificaciones' },
+        activos: { valor: '3', variacion: '75% flota', descripcion: 'Agentes en producción activa' },
+        fallando: { valor: '1', variacion: 'Requiere atención', descripcion: 'DataMiner X con incidencias' },
+      }
+    };
+
+    // Skill pricing details for contract breakdown
+    const SKILL_PRICES = {
+      'Análisis de sentimiento': 400,
+      'Atención al cliente': 350,
+      'Análisis de datos': 500,
+      'Generación de informes': 400,
+      'Traducción automática': 600,
+      'Detección de idiomas': 300,
+      'Moderación de contenido': 450,
+      'Filtro de toxicidad': 350,
+    };
+
+    // =============================================================
+    // ICONOS SVG (T13: inline SVGs)
+    // =============================================================
+    const ICONS = {
+      dashboard: '<svg class="w-5 h-5" viewBox="0 -0.5 25 25" fill="currentColor"><path d="M12.5 11.75C12.9142 11.75 13.25 11.4142 13.25 11C13.25 10.5858 12.9142 10.25 12.5 10.25V11.75ZM5.5 10.25C5.08579 10.25 4.75 10.5858 4.75 11C4.75 11.4142 5.08579 11.75 5.5 11.75V10.25ZM12.5 10.25C12.0858 10.25 11.75 10.5858 11.75 11C11.75 11.4142 12.0858 11.75 12.5 11.75V10.25ZM19.5 11.75C19.9142 11.75 20.25 11.4142 20.25 11C20.25 10.5858 19.9142 10.25 19.5 10.25V11.75ZM11.75 11C11.75 11.4142 12.0858 11.75 12.5 11.75C12.9142 11.75 13.25 11.4142 13.25 11H11.75ZM13.25 5C13.25 4.58579 12.9142 4.25 12.5 4.25C12.0858 4.25 11.75 4.58579 11.75 5H13.25Z"/><path d="M12.5 11.75H5.5M12.5 11.75H19.5M13.25 11V5M4.75 11V15C4.75 17.6234 6.87665 19.75 9.5 19.75H15.5C18.1234 19.75 20.25 17.6234 20.25 15V11M6.25 11V9C6.25 7.20507 7.70507 5.75 9.5 5.75H12.5M20.25 11V9C20.25 6.37665 18.1234 4.25 15.5 4.25H12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>',
+      user: '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"/></svg>',
+      agents: '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M14 2C14 2.74028 13.5978 3.38663 13 3.73244V4H20C21.6569 4 23 5.34315 23 7V19C23 20.6569 21.6569 22 20 22H4C2.34315 22 1 20.6569 1 19V7C1 5.34315 2.34315 4 4 4H11V3.73244C10.4022 3.38663 10 2.74028 10 2C10 0.895431 10.8954 0 12 0C13.1046 0 14 0.895431 14 2ZM4 6H11H13H20C20.5523 6 21 6.44772 21 7V19C21 19.5523 20.5523 20 20 20H4C3.44772 20 3 19.5523 3 19V7C3 6.44772 3.44772 6 4 6ZM15 11.5C15 10.6716 15.6716 10 16.5 10C17.3284 10 18 10.6716 18 11.5C18 12.3284 17.3284 13 16.5 13C15.6716 13 15 12.3284 15 11.5ZM16.5 8C14.567 8 13 9.567 13 11.5C13 13.433 14.567 15 16.5 15C18.433 15 20 13.433 20 11.5C20 9.567 18.433 8 16.5 8ZM7.5 10C6.67157 10 6 10.6716 6 11.5C6 12.3284 6.67157 13 7.5 13C8.32843 13 9 12.3284 9 11.5C9 10.6716 8.32843 10 7.5 10ZM4 11.5C4 9.567 5.567 8 7.5 8C9.433 8 11 9.567 11 11.5C11 13.433 9.433 15 7.5 15C5.567 15 4 13.433 4 11.5ZM10.8944 16.5528C10.6474 16.0588 10.0468 15.8586 9.55279 16.1056C9.05881 16.3526 8.85858 16.9532 9.10557 17.4472C9.68052 18.5971 10.9822 19 12 19C13.0178 19 14.3195 18.5971 14.8944 17.4472C15.1414 16.9532 14.9412 16.3526 14.4472 16.1056C13.9532 15.8586 13.3526 16.0588 13.1056 16.5528C13.0139 16.7362 12.6488 17 12 17C11.3512 17 10.9861 16.7362 10.8944 16.5528Z"/></svg>',
+      skills: '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M11.2919 3.84263C11.5213 3.40737 11.636 3.18973 11.7892 3.11868C11.9226 3.05679 12.0765 3.05679 12.21 3.11868C12.3632 3.18973 12.4779 3.40737 12.7073 3.84263L14.1143 6.51208C14.2134 6.70001 14.2629 6.79397 14.3367 6.85654C14.4018 6.91178 14.48 6.94942 14.5637 6.96588C14.6586 6.98453 14.763 6.96467 14.9717 6.92494L17.936 6.36063C18.4193 6.26862 18.661 6.22262 18.8121 6.29809C18.9437 6.36382 19.0396 6.48415 19.0744 6.62705C19.1144 6.79113 19.0158 7.0165 18.8185 7.46725L17.6087 10.2317C17.5235 10.4263 17.481 10.5236 17.478 10.6203C17.4754 10.7056 17.4947 10.7902 17.5341 10.866C17.5787 10.9518 17.6593 11.021 17.8205 11.1594L20.1099 13.1252C20.4832 13.4457 20.6698 13.606 20.705 13.7711C20.7357 13.915 20.7014 14.065 20.6114 14.1813C20.508 14.3149 20.2703 14.3783 19.7949 14.5051L16.8793 15.2828C16.674 15.3376 16.5714 15.365 16.494 15.423C16.4257 15.4741 16.3716 15.542 16.3369 15.62C16.2976 15.7084 16.2937 15.8145 16.286 16.0268L16.1765 19.0424C16.1587 19.5341 16.1498 19.7799 16.0426 19.9104C15.9492 20.0241 15.8106 20.0909 15.6635 20.093C15.4946 20.0954 15.2969 19.9491 14.9013 19.6565L12.4754 17.8619C12.3046 17.7356 12.2192 17.6724 12.1256 17.648C12.043 17.6265 11.9562 17.6265 11.8736 17.648C11.78 17.6724 11.6946 17.7356 11.5238 17.8619L9.09789 19.6565C8.70233 19.9491 8.50456 20.0954 8.3357 20.093C8.18864 20.0909 8.04997 20.0241 7.95661 19.9104C7.84941 19.7799 7.84049 19.5341 7.82264 19.0424L7.71317 16.0268C7.70547 15.8145 7.70161 15.7084 7.66231 15.62C7.62762 15.542 7.57353 15.4741 7.50518 15.423C7.42777 15.365 7.32514 15.3376 7.11989 15.2828L4.20427 14.5051C3.72887 14.3783 3.49117 14.3149 3.38781 14.1813C3.29778 14.065 3.26354 13.915 3.29418 13.7711C3.32936 13.606 3.51601 13.4457 3.88931 13.1252L6.17874 11.1594C6.33991 11.021 6.42049 10.9518 6.46509 10.866C6.50445 10.7902 6.52376 10.7056 6.52116 10.6203C6.51823 10.5236 6.47565 10.4263 6.39048 10.2317L5.18069 7.46725C4.98343 7.0165 4.8848 6.79113 4.92477 6.62705C4.95957 6.48415 5.05553 6.36382 5.18711 6.29809C5.33817 6.22262 5.57985 6.26862 6.06319 6.36063L9.02753 6.92494C9.23621 6.96467 9.34055 6.98453 9.43545 6.96588C9.51924 6.94942 9.59741 6.91178 9.66252 6.85654C9.73627 6.79397 9.78579 6.70001 9.88484 6.51208L11.2919 3.84263Z" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>',
+      contract: '<svg class="w-5 h-5" viewBox="0 0 15 15" fill="currentColor"><path d="M4.5 7H4V8H4.5V7ZM10.5 8H11V7H10.5V8ZM4.5 4H4V5H4.5V4ZM6.5 5H7V4H6.5V5ZM10.5 0.5L10.8536 0.146447L10.7071 0H10.5V0.5ZM13.5 3.5H14V3.29289L13.8536 3.14645L13.5 3.5ZM8 11L7.64645 11.3536L8 11ZM7.5 11.5L7.72361 11.9472L7.76393 11.9271L7.8 11.9L7.5 11.5ZM4.5 8H10.5V7H4.5V8ZM4.5 5H6.5V4H4.5V5ZM12.5 14H2.5V15H12.5V14ZM2 13.5V1.5H1V13.5H2ZM2.5 1H10.5V0H2.5V1ZM13 3.5V13.5H14V3.5H13ZM10.1464 0.853553L13.1464 3.85355L13.8536 3.14645L10.8536 0.146447L10.1464 0.853553Z" stroke="currentColor" stroke-width="0.5"/></svg>',
+      error: '<svg class="w-5 h-5" viewBox="0 0 16 16" fill="currentColor"><path d="M7.493 0.015C7.442 0.021 7.268 0.039 7.107 0.055 5.234 0.242 3.347 1.208 2.071 2.634 0.66 4.211-0.057 6.168 0.009 8.253 0.124 11.854 2.599 14.903 6.11 15.771 8.169 16.28 10.433 15.917 12.227 14.791 14.017 13.666 15.27 11.933 15.771 9.887 15.943 9.186 15.983 8.829 15.983 8 15.983 7.171 15.943 6.814 15.771 6.113 14.979 2.878 12.315 0.498 9 0.064 8.716 0.027 7.683-0.006 7.493 0.015M8.853 1.563C9.967 1.707 11.01 2.136 11.944 2.834 12.273 3.08 12.92 3.727 13.166 4.056 13.727 4.807 14.142 5.69 14.33 6.535 14.544 7.5 14.544 8.5 14.33 9.465 13.916 11.326 12.605 12.978 10.867 13.828 10.239 14.135 9.591 14.336 8.88 14.444 8.456 14.509 7.544 14.509 7.12 14.444 5.172 14.148 3.528 13.085 2.493 11.451 2.279 11.114 1.999 10.526 1.859 10.119 1.618 9.422 1.514 8.781 1.514 8 1.514 6.961 1.715 6.075 2.16 5.16 2.5 4.462 2.846 3.98 3.413 3.413 3.98 2.846 4.462 2.5 5.16 2.16 6.313 1.599 7.567 1.397 8.853 1.563M7.706 4.29C7.482 4.363 7.355 4.491 7.293 4.705 7.257 4.827 7.253 5.106 7.259 6.816 7.267 8.786 7.267 8.787 7.325 8.896 7.398 9.033 7.538 9.157 7.671 9.204 7.803 9.25 8.197 9.25 8.329 9.204 8.462 9.157 8.602 9.033 8.675 8.896 8.733 8.787 8.733 8.786 8.741 6.816 8.749 4.664 8.749 4.662 8.596 4.481 8.472 4.333 8.339 4.284 8.04 4.276 7.893 4.272 7.743 4.278 7.706 4.29M7.786 10.53C7.597 10.592 7.41 10.753 7.319 10.932 7.249 11.072 7.237 11.325 7.294 11.495 7.388 11.78 7.697 12 8 12 8.303 12 8.612 11.78 8.706 11.495 8.763 11.325 8.751 11.072 8.681 10.932 8.616 10.804 8.46 10.646 8.333 10.58 8.217 10.52 7.904 10.491 7.786 10.53"/></svg>',
+      'vertical-dots': '<svg class="w-5 h-5" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12C9.10457 12 10 12.8954 10 14C10 15.1046 9.10457 16 8 16C6.89543 16 6 15.1046 6 14C6 12.8954 6.89543 12 8 12Z"/><path d="M8 6C9.10457 6 10 6.89543 10 8C10 9.10457 9.10457 10 8 10C6.89543 10 6 9.10457 6 8C6 6.89543 6.89543 6 8 6Z"/><path d="M10 2C10 0.89543 9.10457 0 8 0C6.89543 0 6 0.895431 6 2C6 3.10457 6.89543 4 8 4C9.10457 4 10 3.10457 10 2Z"/></svg>',
+      active: '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8.6 20.1l-7.8-8l1.4-1.4l6.4 6.5L21.8 3.9l1.4 1.4L8.6 20.1z"/></svg>',
+      earnings: '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+      loss: '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/></svg>',
+      'failing-agents': '<svg class="w-5 h-5" viewBox="0 0 350 350" fill="currentColor"><polygon points="40,310 40,0 0,0 0,350 350,350 350,310"/><polygon points="211.232,145.228 264.046,220.807 245.774,233.575 315.143,266.002 308.548,189.709 290.276,202.477 220.604,102.772 146.016,146.113 90.588,74.229 65.247,93.771 137.819,187.887"/></svg>',
+      expand: '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>',
+      close: '<svg class="w-5 h-5" viewBox="0 0 16 16" fill="currentColor"><path d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" fill-rule="evenodd"/></svg>',
+    };
+
+    // =============================================================
+    // RENDER SVG ICONS IN NAV (T13)
+    // =============================================================
+    document.querySelectorAll('.nav-icon').forEach(function(el) {
+      var name = el.getAttribute('data-icon');
+      if (ICONS[name]) el.innerHTML = ICONS[name];
+    });
+
+    // =============================================================
+    // T12: MODO OSCURO
+    // =============================================================
+    function getInitialTheme() {
+      var stored = localStorage.getItem('agenthub-theme');
+      if (stored) return stored;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    var currentTheme = getInitialTheme();
+    if (currentTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+
+    function toggleTheme() {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('agenthub-theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('agenthub-theme', 'dark');
+      }
+    }
+
+    // =============================================================
+    // T3: NAVEGACIÓN SPA
+    // =============================================================
+    var sectionTitles = {
+      dashboard: 'Dashboard',
+      usuarios: 'Gestión de usuarios',
+      agentes: 'Gestión de agentes',
+      skills: 'Skills',
+      contrataciones: 'Contrataciones de agentes',
+      'log-errores': 'Log de errores'
+    };
+
+    function navigateTo(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.section-content').forEach(function(el) {
+        el.classList.remove('active');
+      });
+      // Show target
+      var target = document.getElementById('section-' + sectionId);
+      if (target) target.classList.add('active');
+      // Update title
+      document.getElementById('section-title').textContent = sectionTitles[sectionId] || 'Dashboard';
+      // Update nav active states
+      document.querySelectorAll('nav a[data-section]').forEach(function(link) {
+        link.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-900', 'dark:text-slate-50', 'font-semibold');
+        link.classList.add('text-slate-500', 'dark:text-slate-400');
+      });
+      var activeLink = document.querySelector('nav a[data-section="' + sectionId + '"]');
+      if (activeLink) {
+        activeLink.classList.remove('text-slate-500', 'dark:text-slate-400');
+        activeLink.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-900', 'dark:text-slate-50', 'font-semibold');
+      }
+      // Update hash
+      window.location.hash = sectionId;
+      // Close sidebar on mobile
+      if (window.innerWidth < 1024) {
+        document.getElementById('sidebar').classList.remove('translate-x-0');
+        document.getElementById('sidebar-backdrop').classList.add('hidden');
+      }
+    }
+
+    // Nav click handlers
+    document.querySelectorAll('nav a[data-section]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        navigateTo(this.getAttribute('data-section'));
+      });
+    });
+
+    // Hash-based routing
+    function handleHash() {
+      var hash = window.location.hash.replace('#', '') || 'dashboard';
+      if (sectionTitles[hash]) navigateTo(hash);
+    }
+    window.addEventListener('hashchange', handleHash);
+
+    // =============================================================
+    // SIDEBAR TOGGLE (T14: responsive)
+    // =============================================================
+    function toggleSidebar() {
+      var sidebar = document.getElementById('sidebar');
+      var backdrop = document.getElementById('sidebar-backdrop');
+      sidebar.classList.toggle('translate-x-0');
+      backdrop.classList.toggle('hidden');
+    }
+
+    // =============================================================
+    // T4: SISTEMA DE DROPDOWNS
+    // =============================================================
+    var activeDropdown = null;
+
+    function toggleDropdown(id, event) {
+      if (event) {
+        event.stopPropagation();
+      }
+      var menu = document.getElementById(id);
+      if (!menu) return;
+      if (menu.classList.contains('open')) {
+        menu.classList.remove('open');
+        activeDropdown = null;
+      } else {
+        // Close any other open dropdown
+        if (activeDropdown) {
+          activeDropdown.classList.remove('open');
+        }
+        menu.classList.add('open');
+        activeDropdown = menu;
+      }
+    }
+
+    // Close dropdowns on outside click
+    document.addEventListener('click', function(e) {
+      if (activeDropdown && !activeDropdown.contains(e.target)) {
+        // Check if click was on a toggle button
+        var toggle = e.target.closest('[onclick*="toggleDropdown"]');
+        if (!toggle) {
+          activeDropdown.classList.remove('open');
+          activeDropdown = null;
+        }
+      }
+    });
+
+    // Close dropdowns on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && activeDropdown) {
+        activeDropdown.classList.remove('open');
+        activeDropdown = null;
+      }
+    });
+
+    // =============================================================
+    // T5: SISTEMA DE MODALES
+    // =============================================================
+    var modalOverlay = document.getElementById('modal-overlay');
+    var modalTitle = document.getElementById('modal-title');
+    var modalBody = document.getElementById('modal-body');
+
+    function openModal(title, htmlContent) {
+      modalTitle.textContent = title;
+      modalBody.innerHTML = htmlContent;
+      modalOverlay.classList.add('open');
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('open');
+    }
+
+    // Close modal on backdrop click
+    modalOverlay.addEventListener('click', function(e) {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    // Close modal on Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('open')) {
+        closeModal();
+      }
+    });
+
+    function openConfirmModal(message, onConfirm) {
+      var html = '<p class="mb-6 text-slate-600 dark:text-slate-300">' + message + '</p>' +
+        '<div class="flex justify-end gap-3">' +
+        '<button onclick="closeModal()" class="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-body-md font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">Cancelar</button>' +
+        '<button id="confirm-delete-btn" class="px-4 py-2 rounded-lg bg-red-600 text-white text-body-md font-medium hover:bg-red-700 transition-colors">Eliminar</button>' +
+        '</div>';
+      openModal('Confirmar eliminación', html);
+      document.getElementById('confirm-delete-btn').addEventListener('click', function() {
+        closeModal();
+        if (onConfirm) onConfirm();
+      });
+    }
+
+    // =============================================================
+    // T6: DASHBOARD
+    // =============================================================
+    function renderDashboard() {
+      var metrics = APP_DATA.dashboardMetrics;
+      var container = document.getElementById('dashboard-metrics');
+      var cards = [
+        { label: 'Finanzas Globales', title: 'Ingresos totales', value: metrics.ingresos.valor, variation: metrics.ingresos.variacion, desc: metrics.ingresos.descripcion, border: 'border-l-blue-500', icon: 'earnings', iconColor: 'text-blue-600 dark:text-sky-400' },
+        { label: 'Rendimiento Comercial', title: 'Pérdidas por descuentos', value: metrics.perdidas.valor, variation: metrics.perdidas.variacion, desc: metrics.perdidas.descripcion, border: 'border-l-orange-500', icon: 'loss', iconColor: 'text-orange-500' },
+        { label: 'Flota Operativa', title: 'Agentes activos', value: metrics.activos.valor, variation: metrics.activos.variacion, desc: metrics.activos.descripcion, border: 'border-l-green-500', icon: 'active', iconColor: 'text-green-600 dark:text-emerald-400' },
+        { label: 'Incidencias', title: 'Agentes fallando', value: metrics.fallando.valor, variation: metrics.fallando.variacion, desc: metrics.fallando.descripcion, border: 'border-l-red-500', icon: 'failing-agents', iconColor: 'text-red-600 dark:text-rose-500' },
+      ];
+      container.innerHTML = cards.map(function(c) {
+        return '<div class="bg-white dark:bg-slate-900 rounded-lg p-5 shadow-sm border border-slate-200 dark:border-slate-800 ' + c.border + ' flex flex-col justify-between group hover:shadow-md transition-shadow">' +
+          '<div class="flex items-start justify-between">' +
+          '<div>' +
+          '<span class="text-label-badge uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-1">' + c.label + '</span>' +
+          '<span class="font-heading text-headline-sm text-slate-900 dark:text-slate-50">' + c.title + '</span>' +
+          '</div>' +
+          '<div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center ' + c.iconColor + '">' +
+          ICONS[c.icon] +
+          '</div>' +
+          '</div>' +
+          '<div class="mt-4 flex items-baseline justify-between">' +
+          '<span class="font-mono text-metric-display text-slate-900 dark:text-slate-50">' + c.value + '</span>' +
+          '<span class="flex items-center gap-1 text-body-sm font-medium bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full text-slate-600 dark:text-slate-300">' +
+          c.variation +
+          '</span>' +
+          '</div>' +
+          '<p class="text-body-sm text-slate-500 dark:text-slate-400 mt-2">' + c.desc + '</p>' +
+          '</div>';
+      }).join('');
+    }
+
+    // =============================================================
+    // T7: GESTIÓN DE USUARIOS
+    // =============================================================
+    function getEstadoBadge(estado) {
+      var map = {
+        'Activo': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+        'Inactivo': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+        'Pendiente': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+      };
+      var cls = map[estado] || 'bg-slate-100 text-slate-800';
+      return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-label-badge font-semibold ' + cls + '">' +
+        ICONS.active + ' ' + estado + '</span>';
+    }
+
+    function getPlanBadge(plan) {
+      var map = {
+        'Enterprise': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+        'Professional': 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
+        'Starter': 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300'
+      };
+      return '<span class="inline-flex items-center px-2 py-0.5 rounded-md text-label-badge font-semibold ' + (map[plan] || '') + '">' + plan + '</span>';
+    }
+
+    function renderUsers() {
+      var tbody = document.getElementById('users-table-body');
+      tbody.innerHTML = APP_DATA.users.map(function(u) {
+        return '<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">' +
+          '<td class="px-4 py-3 font-medium text-slate-900 dark:text-slate-50">' + u.nombre + '</td>' +
+          '<td class="px-4 py-3 text-slate-500 dark:text-slate-400">' + u.email + '</td>' +
+          '<td class="px-4 py-3">' + getPlanBadge(u.plan) + '</td>' +
+          '<td class="px-4 py-3">' + getEstadoBadge(u.estado) + '</td>' +
+          '<td class="px-4 py-3 text-right relative">' +
+          '<button onclick="toggleDropdown(\'user-dd-' + u.id + '\', event)" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">' +
+          ICONS['vertical-dots'] +
+          '</button>' +
+          '<div id="user-dd-' + u.id + '" class="dropdown-menu absolute right-4 top-full mt-1 w-40 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-40">' +
+          '<button onclick="showUserDetail(' + u.id + ')" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">Ver detalle</button>' +
+          '<button onclick="confirmDeleteUser(' + u.id + ')" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-slate-100 dark:hover:bg-slate-700">Eliminar</button>' +
+          '</div>' +
+          '</td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    function showUserDetail(id) {
+      var u = APP_DATA.users.find(function(x) { return x.id === id; });
+      if (!u) return;
+      var html = '<div class="space-y-3">' +
+        '<div class="flex items-center gap-3 pb-3 border-b border-slate-200 dark:border-slate-700">' +
+        '<div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-lg font-medium text-slate-600 dark:text-slate-300">' + u.nombre.charAt(0) + '</div>' +
+        '<div><p class="font-heading text-headline-sm text-slate-900 dark:text-slate-50">' + u.nombre + '</p><p class="text-body-sm text-slate-500 dark:text-slate-400">' + u.email + '</p></div>' +
+        '</div>' +
+        '<div class="grid grid-cols-2 gap-3">' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Plan</span><p class="text-body-md text-slate-900 dark:text-slate-50 font-medium">' + u.plan + '</p></div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Estado</span><p class="mt-1">' + getEstadoBadge(u.estado) + '</p></div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Empresa</span><p class="text-body-md text-slate-900 dark:text-slate-50 font-medium">' + u.empresa + '</p></div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Registro</span><p class="text-body-md text-slate-900 dark:text-slate-50 font-medium">' + u.fechaRegistro + '</p></div>' +
+        '</div>' +
+        '</div>';
+      openModal('Detalle de usuario', html);
+    }
+
+    function confirmDeleteUser(id) {
+      var u = APP_DATA.users.find(function(x) { return x.id === id; });
+      openConfirmModal('¿Estás seguro de que deseas eliminar a <strong>' + (u ? u.nombre : '') + '</strong>?', function() {
+        APP_DATA.users = APP_DATA.users.filter(function(x) { return x.id !== id; });
+        renderUsers();
+      });
+    }
+
+    // =============================================================
+    // T8: GESTIÓN DE AGENTES (with T9 skills collapsible)
+    // =============================================================
+    function getAgentEstadoBadge(estado) {
+      var map = {
+        'Activo': 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+        'Fallando': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+        'Inactivo': 'bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400'
+      };
+      return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-label-badge font-semibold ' + (map[estado] || '') + '">' +
+        '<span class="w-1.5 h-1.5 rounded-full ' + (estado === 'Activo' ? 'bg-green-500' : estado === 'Fallando' ? 'bg-red-500' : 'bg-slate-400') + '"></span>' +
+        ' ' + estado + '</span>';
+    }
+
+    function renderAgents() {
+      var grid = document.getElementById('agents-grid');
+      grid.innerHTML = APP_DATA.agents.map(function(a) {
+        return '<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-5 hover:shadow-md transition-shadow">' +
+          '<div class="flex items-start justify-between mb-3">' +
+          '<div class="flex items-center gap-3">' +
+          '<div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300">' +
+          ICONS.agents +
+          '</div>' +
+          '<div>' +
+          '<h3 class="font-heading text-headline-sm text-slate-900 dark:text-slate-50">' + a.nombre + '</h3>' +
+          '<p class="text-body-sm text-slate-500 dark:text-slate-400">' + a.propietario + '</p>' +
+          '</div>' +
+          '</div>' +
+          '<div class="relative">' +
+          '<button onclick="toggleDropdown(\'agent-dd-' + a.id + '\', event)" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">' +
+          ICONS['vertical-dots'] +
+          '</button>' +
+          '<div id="agent-dd-' + a.id + '" class="dropdown-menu absolute right-0 top-full mt-1 w-40 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-40">' +
+          '<button onclick="showAgentConfig(' + a.id + ')" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">Configurar</button>' +
+          '<button onclick="confirmDeleteAgent(' + a.id + ')" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-slate-100 dark:hover:bg-slate-700">Eliminar</button>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '<div class="flex items-center gap-2 mb-3">' + getAgentEstadoBadge(a.estado) + '</div>' +
+          '<div>' +
+          '<button onclick="toggleSkills(' + a.id + ')" class="flex items-center gap-1 text-body-sm text-blue-600 dark:text-sky-400 font-medium hover:underline">' +
+          '<span id="skills-icon-' + a.id + '" class="transition-transform duration-200">' + ICONS.expand + '</span>' +
+          ' Skills (' + a.skills.length + ')' +
+          '</button>' +
+          '<div id="skills-list-' + a.id + '" class="skill-list mt-2">' +
+          '<div class="flex flex-wrap gap-1.5 pt-1">' +
+          a.skills.map(function(s) {
+            return '<span class="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-body-sm">' + s + '</span>';
+          }).join('') +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+      }).join('');
+    }
+
+    function toggleSkills(agentId) {
+      var list = document.getElementById('skills-list-' + agentId);
+      var icon = document.getElementById('skills-icon-' + agentId);
+      if (list.classList.contains('open')) {
+        list.classList.remove('open');
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        list.classList.add('open');
+        icon.style.transform = 'rotate(90deg)';
+      }
+    }
+
+    function showAgentConfig(agentId) {
+      var a = APP_DATA.agents.find(function(x) { return x.id === agentId; });
+      if (!a) return;
+      var html = '<div class="space-y-4">' +
+        '<p class="text-body-md text-slate-600 dark:text-slate-300">System prompt de <strong>' + a.nombre + '</strong></p>' +
+        '<textarea class="w-full h-40 p-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-body-md text-slate-900 dark:text-slate-50 font-mono focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>' + a.prompt + '</textarea>' +
+        '<div class="flex justify-end gap-3">' +
+        '<button onclick="closeModal()" class="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-body-md font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">Cerrar</button>' +
+        '</div>' +
+        '</div>';
+      openModal('Configurar: ' + a.nombre, html);
+    }
+
+    function confirmDeleteAgent(id) {
+      var a = APP_DATA.agents.find(function(x) { return x.id === id; });
+      openConfirmModal('¿Estás seguro de que deseas eliminar a <strong>' + (a ? a.nombre : '') + '</strong>?', function() {
+        APP_DATA.agents = APP_DATA.agents.filter(function(x) { return x.id !== id; });
+        renderAgents();
+      });
+    }
+
+    // =============================================================
+    // T9: CATÁLOGO DE SKILLS
+    // =============================================================
+    function renderSkills() {
+      var grid = document.getElementById('skills-grid');
+      grid.innerHTML = APP_DATA.skills.map(function(s) {
+        return '<div class="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm p-5 hover:shadow-md transition-shadow">' +
+          '<div class="flex items-start justify-between mb-3">' +
+          '<div class="flex items-center gap-3">' +
+          '<div class="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">' +
+          ICONS.skills +
+          '</div>' +
+          '<div>' +
+          '<h3 class="font-heading text-headline-sm text-slate-900 dark:text-slate-50">' + s.nombre + '</h3>' +
+          '<p class="text-body-sm text-slate-500 dark:text-slate-400">' + s.categoria + '</p>' +
+          '</div>' +
+          '</div>' +
+          '<div class="relative">' +
+          '<button onclick="toggleDropdown(\'skill-dd-' + s.id + '\', event)" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">' +
+          ICONS['vertical-dots'] +
+          '</button>' +
+          '<div id="skill-dd-' + s.id + '" class="dropdown-menu absolute right-0 top-full mt-1 w-40 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-40">' +
+          '<button onclick="showSkillDetail(' + s.id + ')" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">Ver detalle</button>' +
+          '<button onclick="confirmDeleteSkill(' + s.id + ')" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-slate-100 dark:hover:bg-slate-700">Eliminar</button>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '<p class="text-body-md text-slate-600 dark:text-slate-300 mb-3">' + s.descripcion + '</p>' +
+          '<div class="flex items-center gap-2 text-body-sm text-slate-500 dark:text-slate-400">' +
+          '<span class="font-mono text-label-code">' + s.agentes.length + '</span>' +
+          ' agente' + (s.agentes.length !== 1 ? 's' : '') + ' la tienen habilitada' +
+          '</div>' +
+          '</div>';
+      }).join('');
+    }
+
+    function showSkillDetail(skillId) {
+      var s = APP_DATA.skills.find(function(x) { return x.id === skillId; });
+      if (!s) return;
+      var html = '<div class="space-y-3">' +
+        '<div class="pb-3 border-b border-slate-200 dark:border-slate-700">' +
+        '<p class="font-heading text-headline-sm text-slate-900 dark:text-slate-50">' + s.nombre + '</p>' +
+        '<p class="text-body-sm text-slate-500 dark:text-slate-400">' + s.categoria + '</p>' +
+        '</div>' +
+        '<p class="text-body-md text-slate-600 dark:text-slate-300">' + s.descripcion + '</p>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Agentes habilitados</span>' +
+        '<div class="flex flex-wrap gap-1.5 mt-1">' +
+        s.agentes.map(function(a) { return '<span class="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-body-sm">' + a + '</span>'; }).join('') +
+        '</div></div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Fecha de creación</span>' +
+        '<p class="text-body-md text-slate-900 dark:text-slate-50">' + s.fechaCreacion + '</p></div>' +
+        '</div>';
+      openModal('Detalle de skill', html);
+    }
+
+    function confirmDeleteSkill(id) {
+      var s = APP_DATA.skills.find(function(x) { return x.id === id; });
+      openConfirmModal('¿Estás seguro de que deseas eliminar la skill <strong>' + (s ? s.nombre : '') + '</strong>?', function() {
+        APP_DATA.skills = APP_DATA.skills.filter(function(x) { return x.id !== id; });
+        renderSkills();
+      });
+    }
+
+    // =============================================================
+    // T10: CONTRATACIONES
+    // =============================================================
+    function renderContracts() {
+      var tbody = document.getElementById('contracts-table-body');
+      tbody.innerHTML = APP_DATA.contracts.map(function(c) {
+        return '<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">' +
+          '<td class="px-4 py-3 font-medium text-slate-900 dark:text-slate-50">' + c.cliente + '</td>' +
+          '<td class="px-4 py-3 text-slate-700 dark:text-slate-300">' + c.agente + '</td>' +
+          '<td class="px-4 py-3 text-slate-500 dark:text-slate-400">' + c.skills.slice(0, 2).join(', ') + (c.skills.length > 2 ? '...' : '') + '</td>' +
+          '<td class="px-4 py-3 text-slate-700 dark:text-slate-300">' + c.inicio + '</td>' +
+          '<td class="px-4 py-3 text-slate-700 dark:text-slate-300">' + c.fin + '</td>' +
+          '<td class="px-4 py-3 font-mono font-semibold text-slate-900 dark:text-slate-50">$' + c.importe.toLocaleString() + '</td>' +
+          '<td class="px-4 py-3 text-right relative">' +
+          '<button onclick="toggleDropdown(\'contract-dd-' + c.id + '\', event)" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">' +
+          ICONS['vertical-dots'] +
+          '</button>' +
+          '<div id="contract-dd-' + c.id + '" class="dropdown-menu absolute right-4 top-full mt-1 w-40 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-40">' +
+          '<button onclick="showContractDetail(' + c.id + ')" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">Ver detalle</button>' +
+          '</div>' +
+          '</td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    function showContractDetail(contractId) {
+      var c = APP_DATA.contracts.find(function(x) { return x.id === contractId; });
+      if (!c) return;
+      var totalBreakdown = 0;
+      var breakdownRows = c.skills.map(function(skillName) {
+        var price = SKILL_PRICES[skillName] || 300;
+        totalBreakdown += price;
+        return '<tr><td class="px-3 py-2 text-slate-700 dark:text-slate-300">' + skillName + '</td><td class="px-3 py-2 text-right font-mono text-slate-900 dark:text-slate-50">$' + price + '/mes</td></tr>';
+      }).join('');
+
+      var html = '<div class="space-y-3">' +
+        '<div class="grid grid-cols-2 gap-3 pb-3 border-b border-slate-200 dark:border-slate-700">' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Cliente</span><p class="text-body-md text-slate-900 dark:text-slate-50 font-medium">' + c.cliente + '</p></div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Agente</span><p class="text-body-md text-slate-900 dark:text-slate-50 font-medium">' + c.agente + '</p></div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Inicio</span><p class="text-body-md text-slate-900 dark:text-slate-50">' + c.inicio + '</p></div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Fin</span><p class="text-body-md text-slate-900 dark:text-slate-50">' + c.fin + '</p></div>' +
+        '</div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase block mb-2">Desglose de skills contratadas</span>' +
+        '<table class="w-full text-body-sm border border-slate-200 dark:border-slate-700 rounded-lg">' +
+        '<thead><tr class="bg-slate-100 dark:bg-slate-800"><th class="px-3 py-2 text-left text-slate-700 dark:text-slate-300">Skill</th><th class="px-3 py-2 text-right text-slate-700 dark:text-slate-300">Precio</th></tr></thead>' +
+        '<tbody class="divide-y divide-slate-200 dark:divide-slate-700">' + breakdownRows +
+        '<tr class="font-semibold bg-slate-50 dark:bg-slate-800/50"><td class="px-3 py-2 text-slate-900 dark:text-slate-50">Total mensual</td><td class="px-3 py-2 text-right font-mono text-slate-900 dark:text-slate-50">$' + totalBreakdown + '/mes</td></tr>' +
+        '</tbody></table></div>' +
+        '<div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-700">' +
+        '<span class="font-heading text-headline-sm text-slate-900 dark:text-slate-50">Total pagado</span>' +
+        '<span class="font-mono text-headline-md text-slate-900 dark:text-slate-50">$' + c.importe.toLocaleString() + '</span>' +
+        '</div>' +
+        '</div>';
+      openModal('Detalle de contrato', html);
+    }
+
+    // =============================================================
+    // T11: LOG DE ERRORES
+    // =============================================================
+    function getErrorTipoBadge(tipo) {
+      var map = {
+        'Timeout': 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400',
+        'Crash': 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+        'API Error': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+        'Validation': 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
+      };
+      return '<span class="px-2 py-0.5 rounded-full text-label-badge font-semibold ' + (map[tipo] || '') + '">' + tipo + '</span>';
+    }
+
+    function renderErrors() {
+      var tbody = document.getElementById('errors-table-body');
+      tbody.innerHTML = APP_DATA.errorLogs.map(function(e) {
+        return '<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors" data-error-id="' + e.id + '">' +
+          '<td class="px-4 py-3 font-mono text-label-code text-slate-600 dark:text-slate-400">' + e.timestamp + '</td>' +
+          '<td class="px-4 py-3 text-slate-700 dark:text-slate-300">' + e.agente + '</td>' +
+          '<td class="px-4 py-3">' + getErrorTipoBadge(e.tipo) + '</td>' +
+          '<td class="px-4 py-3 text-slate-500 dark:text-slate-400 max-w-xs truncate">' + e.descripcion + '</td>' +
+          '<td class="px-4 py-3 text-right relative">' +
+          '<button onclick="toggleDropdown(\'error-dd-' + e.id + '\', event)" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">' +
+          ICONS['vertical-dots'] +
+          '</button>' +
+          '<div id="error-dd-' + e.id + '" class="dropdown-menu absolute right-4 top-full mt-1 w-44 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-40">' +
+          '<button onclick="showErrorDetail(' + e.id + ')" class="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">Ver detalle</button>' +
+          '<button onclick="markAsResolved(' + e.id + ')" class="w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-slate-100 dark:hover:bg-slate-700">Marcar como resuelto</button>' +
+          '</div>' +
+          '</td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    function showErrorDetail(errorId) {
+      var e = APP_DATA.errorLogs.find(function(x) { return x.id === errorId; });
+      if (!e) return;
+      var html = '<div class="space-y-3">' +
+        '<div class="grid grid-cols-2 gap-3 pb-3 border-b border-slate-200 dark:border-slate-700">' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Timestamp</span><p class="text-body-md text-slate-900 dark:text-slate-50 font-mono">' + e.timestamp + '</p></div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Agente</span><p class="text-body-md text-slate-900 dark:text-slate-50 font-medium">' + e.agente + '</p></div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Tipo</span><p class="mt-1">' + getErrorTipoBadge(e.tipo) + '</p></div>' +
+        '</div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Descripción</span>' +
+        '<p class="text-body-md text-slate-600 dark:text-slate-300 mt-1">' + e.descripcion + '</p></div>' +
+        '<div><span class="text-label-badge text-slate-500 dark:text-slate-400 uppercase">Stack Trace</span>' +
+        '<pre class="mt-1 p-3 rounded-lg bg-slate-900 dark:bg-slate-950 text-green-400 font-mono text-body-sm overflow-x-auto max-h-32 overflow-y-auto">' + e.stackTrace + '</pre></div>' +
+        '</div>';
+      openModal('Detalle de error', html);
+    }
+
+    function markAsResolved(errorId) {
+      var row = document.querySelector('tr[data-error-id="' + errorId + '"]');
+      if (row) {
+        row.classList.add('resolved-row');
+        var badgeCell = row.querySelector('td:nth-child(3)');
+        if (badgeCell) {
+          badgeCell.innerHTML = badgeCell.innerHTML + ' <span class="px-2 py-0.5 rounded-full text-label-badge font-semibold bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">Resuelto</span>';
+        }
+      }
+    }
+
+    // =============================================================
+    // INIT: Render everything and navigate
+    // =============================================================
+    renderDashboard();
+    renderUsers();
+    renderAgents();
+    renderSkills();
+    renderContracts();
+    renderErrors();
+
+    // Initial navigation from hash or default
+    handleHash();
+  </script>
+</body>
+</html>
